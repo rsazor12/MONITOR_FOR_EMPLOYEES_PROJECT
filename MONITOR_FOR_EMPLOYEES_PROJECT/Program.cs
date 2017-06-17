@@ -8,6 +8,7 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT
 {
     class Program
     {
+        //Entry point for aplication
         static void Main(string[] args)
         {
         }
