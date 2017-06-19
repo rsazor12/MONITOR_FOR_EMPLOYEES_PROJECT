@@ -11,6 +11,8 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT
         //Entry point for aplication S
         static void Main(string[] args)
         {
+
+            Console.ReadKey(); 
         }
     }
 }
