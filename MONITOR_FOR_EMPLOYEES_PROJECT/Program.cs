@@ -14,6 +14,7 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT
     class Program
     {
         //Entry point for aplication S
+        //komentarz
         static void Main(string[] args)
         {
             
