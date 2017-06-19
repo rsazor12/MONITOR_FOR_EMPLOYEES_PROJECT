@@ -12,6 +12,7 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT
         static void Main(string[] args)
         {
             Console.ReadKey();//1
+            Console.ReadKey();//2
         }
     }
 }
