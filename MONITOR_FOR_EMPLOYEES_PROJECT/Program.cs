@@ -12,12 +12,12 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT
 {
     class Program
     {
-        //Entry point for aplication S
-        //komentarz
         static void Main(string[] args)
         {
-
+            //Tu Tworz
             FileMonitorClass obFileMonitorClass = new FileMonitorClass("c:\\Workspace");
+            
+
             /*MouseMonitorClass._hookID = MouseMonitorClass.SetHook(MouseMonitorClass._proc);
             Application.Run();
             MouseMonitorClass.UnhookWindowsHookEx(MouseMonitorClass._hookID);

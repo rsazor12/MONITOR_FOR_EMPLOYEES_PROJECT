@@ -9,11 +9,11 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT
 {
     class MenagerOfDispatcherClass
     {
-        MenagerOfDispatcherClass(EventHandler HandlerMethodOfDispatcher, TimeSpan intervalOfGeneratingReport)
+        MenagerOfDispatcherClass(EventHandler HandlerMethodOfDispatcher, TimeSpan intervalOfSaveDataToDB)
         {
             DispatcherTimer dispatcherTimer = new DispatcherTimer(); //tworze timer
             dispatcherTimer.Tick += HandlerMethodOfDispatcher;      //tu podpinam funkcje którą ktos przesle w parametrze( bedzie ona uruchamiana np co godzine)
-            dispatcherTimer.Interval = intervalOfGeneratingReport;   //new TimeSpan(0,0,1);
+            dispatcherTimer.Interval = intervalOfSaveDataToDB;   //new TimeSpan(0,0,1);
             dispatcherTimer.Start();                                 //startuje Dispatcher
         }
     }
