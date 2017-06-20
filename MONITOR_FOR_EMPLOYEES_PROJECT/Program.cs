@@ -7,6 +7,7 @@ using MONITOR_FOR_EMPLOYEES_PROJECT.MonitoringClasses.MouseMonitorClass;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using MONITOR_FOR_EMPLOYEES_PROJECT.MonitoringClasses.FileMonitorClasses;
+using System.Timers;
 
 namespace MONITOR_FOR_EMPLOYEES_PROJECT
 {
@@ -19,12 +20,12 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT
 
 
             //Tu musimy przypisać Handlery z tych naszych monitorujących klas do Dispatchera
-            MenagerOfDispatcherClass obMenagerOfDispatcherClass = new MenagerOfDispatcherClass(new TimeSpan(1,0,0));//będzie uruchamiany co godzine
+            MenagerOfTimerClass obMenagerOfDispatcherClass = new MenagerOfTimerClass(1000);//będzie uruchamiany co godzine
 
-            obMenagerOfDispatcherClass.addHandlerFunctionToDispatcherTimer(new EventHandler(obFileMonitorClass.FileMonitorHandlerOfDispatcher));
+            obMenagerOfDispatcherClass.addHandlerFunctionToDispatcherTimer(new ElapsedEventHandler(obFileMonitorClass.FileMonitorHandlerOfDispatcher));
 
             //Startujemy Dispatcher - UWAGA - tu wątek główny(main) BLOKUJE SIĘ !!!! nic pod tą linijką się nie wykona
-            obMenagerOfDispatcherClass.startDispatcher();
+            obMenagerOfDispatcherClass.startTimer();
 
            
             /*MouseMonitorClass._hookID = MouseMonitorClass.SetHook(MouseMonitorClass._proc);

@@ -60,7 +60,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MenagerOfDispatcherClass.cs" />
+    <Compile Include="MenagerOfTimerClass.cs" />
     <Compile Include="MonitoringClasses\FileMonitorClasses\FileMonitorClass.cs" />
     <Compile Include="MonitoringClasses\MouseMonitorClass\MouseMonitorClass.cs" />
     <Compile Include="Program.cs" />
