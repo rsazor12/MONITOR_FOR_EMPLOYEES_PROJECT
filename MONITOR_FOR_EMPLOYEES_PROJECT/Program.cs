@@ -14,14 +14,25 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT
     {
         static void Main(string[] args)
         {
-            //Tu Tworz
+            //Tu musimy tworzyć nasze obiekty monitorujące
             FileMonitorClass obFileMonitorClass = new FileMonitorClass("c:\\Workspace");
 
 
+            //Tu musimy przypisać Handlery z tych naszych monitorujących klas do Dispatchera
+            MenagerOfDispatcherClass obMenagerOfDispatcherClass = new MenagerOfDispatcherClass(new TimeSpan(1,0,0));//będzie uruchamiany co godzine
+
+            obMenagerOfDispatcherClass.addHandlerFunctionToDispatcherTimer(new EventHandler(obFileMonitorClass.FileMonitorHandlerOfDispatcher));
+
+            //Startujemy Dispatcher - UWAGA - tu wątek główny(main) BLOKUJE SIĘ !!!! nic pod tą linijką się nie wykona
+            obMenagerOfDispatcherClass.startDispatcher();
+
+           
             /*MouseMonitorClass._hookID = MouseMonitorClass.SetHook(MouseMonitorClass._proc);
             Application.Run();
             MouseMonitorClass.UnhookWindowsHookEx(MouseMonitorClass._hookID);
             Console.ReadKey();//push1*/
+
+            Console.ReadKey();
 
             connect();
         }

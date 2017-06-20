@@ -67,9 +67,9 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT.MonitoringClasses.FileMonitorClasses
         /// <summary>
         /// Handler do obsługi Dispatchera (zapisuje wszystkie dane do bazy jakie udało się zmonitorować na plikach w Workspace)
         /// </summary>
-        public void FileMonitorHandlerOfDispatcher()
+        public void FileMonitorHandlerOfDispatcher(object sender, EventArgs e)
         {
-
+            Console.WriteLine("a");
         }
     }
 }
