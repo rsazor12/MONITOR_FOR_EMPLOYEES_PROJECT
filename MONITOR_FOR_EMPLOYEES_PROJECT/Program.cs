@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using MONITOR_FOR_EMPLOYEES_PROJECT.MonitoringClasses.MouseMonitorClass;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-
-
+using MONITOR_FOR_EMPLOYEES_PROJECT.MonitoringClasses.FileMonitorClasses;
 
 namespace MONITOR_FOR_EMPLOYEES_PROJECT
 {
@@ -17,11 +16,14 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT
         //komentarz
         static void Main(string[] args)
         {
-            
-            MouseMonitorClass._hookID = MouseMonitorClass.SetHook(MouseMonitorClass._proc);
+
+            FileMonitorClass obFileMonitorClass = new FileMonitorClass("c:\\Workspace");
+            /*MouseMonitorClass._hookID = MouseMonitorClass.SetHook(MouseMonitorClass._proc);
             Application.Run();
             MouseMonitorClass.UnhookWindowsHookEx(MouseMonitorClass._hookID);
-            Console.ReadKey();//push1
+            Console.ReadKey();//push1*/
+
+
         }
     }
 }
