@@ -9,7 +9,6 @@ namespace KeyMonitorClass
         //public static object Storage1;
         public static string logStorage = String.Empty;
     }
-
     class KeyMonitorClass
     {
         static void Main(string[] args)
