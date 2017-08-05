@@ -8,28 +8,25 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Timers;
 
-namespace MONITOR_FOR_EMPLOYEES_PROJECT
+namespace EmployeesMonitor
 {
     class MenagerOfTimerClass
     {
         System.Timers.Timer timer;  
-        public MenagerOfTimerClass(int intervalOfSaveDataToDB)
+        public MenagerOfTimerClass(int saveDataIntervalInMinutes)
         {
-            timer =  new System.Timers.Timer(); //tworze timer
-            //dispatcherTimer.Tick += HandlerMethodOfDispatcher;      //tu podpinam funkcje którą ktos przesle w parametrze( bedzie ona uruchamiana np co godzine)
-            timer.Interval = 1000;   //new TimeSpan(0,0,1);
-            //dispatcherTimer.Start();                                 //startuje Dispatcher
+            timer =  new System.Timers.Timer();
+            timer.Interval = saveDataIntervalInMinutes * 60 * 1000;  
         }
 
-        public void addHandlerFunctionToDispatcherTimer(ElapsedEventHandler HandlerMethodOfDispatcher)
+        public void AddHandlerFunctionToDispatcherTimer(ElapsedEventHandler HandlerMethodOfDispatcher)
         {
             timer.Elapsed += HandlerMethodOfDispatcher;
         }
 
-        public void startTimer()
+        public void StartTimer()
         {
-            timer.Start();
-            
+            timer.Start();            
         }
 
 
