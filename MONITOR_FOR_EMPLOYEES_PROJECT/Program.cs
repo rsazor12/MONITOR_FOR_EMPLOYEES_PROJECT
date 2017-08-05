@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EmployeesMonitor.MonitoringClasses.MouseMonitorClass;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using EmployeesMonitor.MonitoringClasses.FileMonitorClasses;
-using System.Timers;
+﻿using EmpoleeysMonitor.Lib;
+using EmpoleeysMonitor.Lib.Monitor.File;
+using System;
 
 namespace EmployeesMonitor
 {
@@ -16,16 +9,11 @@ namespace EmployeesMonitor
         static void Main(string[] args)
         {
             //Tu musimy tworzyć nasze obiekty monitorujące
-            FileMonitorClass obFileMonitorClass = new FileMonitorClass("C:\\Workspace");
+            FileMonitor obFileMonitorClass = new FileMonitor("C:\\Workspace");
 
             //Tu musimy przypisać Handlery z tych naszych monitorujących klas do Dispatchera
-            MenagerOfTimerClass obMenagerOfDispatcherClass = new MenagerOfTimerClass(60);
-
-            obMenagerOfDispatcherClass.AddHandlerFunctionToDispatcherTimer(new ElapsedEventHandler(obFileMonitorClass.FileMonitorHandlerOfDispatcher));
-
-            //Startujemy Dispatcher - UWAGA - tu wątek główny(main) BLOKUJE SIĘ !!!! nic pod tą linijką się nie wykona
-            obMenagerOfDispatcherClass.StartTimer();
-
+            MonitorManager monitorManager = new MonitorManager(60);
+            monitorManager.StartMonitoring();
            
             /*MouseMonitorClass._hookID = MouseMonitorClass.SetHook(MouseMonitorClass._proc);
             Application.Run();
@@ -34,10 +22,10 @@ namespace EmployeesMonitor
 
             Console.ReadKey();
 
-            connect();
+            Connect();
         }
 
-        public static void connect()
+        public static void Connect()
         {
             //MySql.Data.MySqlClient.MySqlConnection conn;
             //string myConnectionString;

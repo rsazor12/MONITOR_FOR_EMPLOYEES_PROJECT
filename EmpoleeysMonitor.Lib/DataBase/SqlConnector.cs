@@ -1,14 +1,15 @@
-﻿using System;
+﻿using EmpoleeysMonitor.Lib.Model;
+using Oracle.ManagedDataAccess.Client;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oracle.ManagedDataAccess.Client;
-using System.Data;
 
-namespace EmployeesMonitor
+namespace EmpoleeysMonitor.Lib.DataBase
 {
-    class OracleSqlConnector
+    class SqlConnector
     {
         static string host = "149.156.136.151";
         static string port = "1521";
@@ -20,7 +21,7 @@ namespace EmployeesMonitor
         OracleCommand command;
         User user;
 
-        public OracleSqlConnector()
+        public SqlConnector()
         {
             Initialize();
         }
@@ -110,7 +111,7 @@ namespace EmployeesMonitor
                             user.Password = Convert.ToString(dataReader["PASSWORD"]);
                             user.Name = Convert.ToString(dataReader["NAME"]);
                             user.Surname = Convert.ToString(dataReader["SURNAME"]);
-                            user.Role = Convert.ToString(dataReader["ROLE"]);
+                      //      user.Role = Convert.ToString(dataReader["ROLE"]);
                         }
                     }
                     //connection.Close();
@@ -153,7 +154,7 @@ namespace EmployeesMonitor
                 }
                 catch (Exception)
                 {
-                   // ShowMessageBox("Incorect SQL query.", "Table does not exist, or some of the filed are missing.");
+                    // ShowMessageBox("Incorect SQL query.", "Table does not exist, or some of the filed are missing.");
                     connection.Close();
                     return false;
                 }

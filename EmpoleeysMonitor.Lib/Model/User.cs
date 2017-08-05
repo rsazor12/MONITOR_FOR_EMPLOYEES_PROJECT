@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmployeesMonitor
+namespace EmpoleeysMonitor.Lib.Model
 {
     public class User
     {
@@ -12,6 +12,6 @@ namespace EmployeesMonitor
         public string Password { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public string Role { get; set; }
+        public Role Role { get; set; }
     }
 }
