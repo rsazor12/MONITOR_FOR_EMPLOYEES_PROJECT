@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EmpoleeysMonitor.Lib.Model
+﻿namespace EmpoleeysMonitor.Lib.Model
 {
-    public class Role
+    public enum Role
     {
+        Admin = 1,
+        User = 2
     }
 }
