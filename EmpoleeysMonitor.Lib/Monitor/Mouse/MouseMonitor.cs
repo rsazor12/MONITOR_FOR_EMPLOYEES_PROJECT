@@ -3,22 +3,22 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace MONITOR_FOR_EMPLOYEES_PROJECT.MonitoringClasses.MouseMonitorClass
+namespace EmpoleeysMonitor.Lib.Monitor.Mouse
 {
-     static class MouseMonitorClass
+    static class MouseMonitorClass
     {
         public static LowLevelMouseProc _proc = HookCallback;//
         public static IntPtr _hookID = IntPtr.Zero; //inicjalizacja intem=0
         public static int lbutton = 0;
         public static int rbutton = 0;
 
-     /*   public static void Main()
-        {
-            _hookID = SetHook(_proc);
+        /*   public static void Main()
+           {
+               _hookID = SetHook(_proc);
 
-            Application.Run();
-            UnhookWindowsHookEx(_hookID);
-        }*/
+               Application.Run();
+               UnhookWindowsHookEx(_hookID);
+           }*/
 
 
         public static IntPtr SetHook(LowLevelMouseProc proc)
@@ -111,5 +111,4 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT.MonitoringClasses.MouseMonitorClass
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true, CallingConvention = CallingConvention.Winapi)]
         public static extern short GetKeyState(int keyCode);
     }
-
 }

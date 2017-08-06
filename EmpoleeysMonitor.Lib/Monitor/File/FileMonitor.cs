@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MONITOR_FOR_EMPLOYEES_PROJECT.MonitoringClasses.FileMonitorClasses
+namespace EmpoleeysMonitor.Lib.Monitor.File
 {
-    class FileMonitorClass
+    public class FileMonitor
     {
         string pathToWorkspace;
         //string[] filesInWorkspace;
@@ -16,7 +16,7 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT.MonitoringClasses.FileMonitorClasses
         /// <summary>
         /// Konstruktor tworzy kopie wszystkich plikow zawartych w workspace(jesli nie istnieje to go tworzy) i kopiuje je do katalogu oldFiles
         /// </summary>
-        public FileMonitorClass(string pathToWorkspace)
+        public FileMonitor(string pathToWorkspace)
         {
             this.pathToWorkspace = pathToWorkspace;  // inicjuje sciezke
 
@@ -32,22 +32,21 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT.MonitoringClasses.FileMonitorClasses
             }
 
             //usuwam wszystkie pliki z oldFiles
-            Directory.GetFiles(pathToWorkspace + @"\oldFiles").ToList().ForEach(f=> File.Delete(f)); //usuwam wszystkie pliki z katalogu oldFiles - żeby miec świeżą wersje
+            Directory.GetFiles(pathToWorkspace + @"\oldFiles").ToList().ForEach(f=> System.IO.File.Delete(f)); //usuwam wszystkie pliki z katalogu oldFiles - żeby miec świeżą wersje
 
             listOfPathsToFiles = Directory.GetFiles(pathToWorkspace,"*",SearchOption.AllDirectories).ToList();  //pobieram wszystkie ścieżki do plików znajdujacych sie w workspace
 
             //kopiuje wszystkie pliki z Workspace do katalogu oldFIles
-            listOfPathsToFiles.ForEach(f => File.Copy(Path.Combine(Environment.CurrentDirectory, f),pathToWorkspace+"\\oldFiles\\"+Path.GetFileName(f)));
-
-
+            listOfPathsToFiles.ForEach(f => System.IO.File.Copy(Path.Combine(Environment.CurrentDirectory, f),pathToWorkspace+"\\oldFiles\\"+Path.GetFileName(f)));
+            
         }
 
         /// <summary>
         /// Zwraca liczbę linii w podanym pliku (arg - ścieżka do pliku)
         /// </summary>
-        private int getNumberOfLinesFromFile(string pathToFile)
+        private int GetNumberOfLinesFromFile(string pathToFile)
         {
-            var lineCount = File.ReadLines(pathToFile).Count(); //licze ilosc linii w podanym pliku i zwracam ta lizbe
+            var lineCount = System.IO.File.ReadLines(pathToFile).Count(); //licze ilosc linii w podanym pliku i zwracam ta liczbe
 
             return lineCount;
         }
@@ -59,7 +58,7 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT.MonitoringClasses.FileMonitorClasses
         {
             Dictionary<string, int> dictionaryOfFilesAndLines = new Dictionary<string, int>();
 
-            listOfPathsToFiles.ForEach(f => dictionaryOfFilesAndLines.Add(f, getNumberOfLinesFromFile(f))); //dla kazdego pliku licze ilosc linii i wpisuje do słownika
+            listOfPathsToFiles.ForEach(f => dictionaryOfFilesAndLines.Add(f, GetNumberOfLinesFromFile(f))); //dla kazdego pliku licze ilosc linii i wpisuje do słownika
 
             return dictionaryOfFilesAndLines;  //zwracam gotowy słownik
         }
