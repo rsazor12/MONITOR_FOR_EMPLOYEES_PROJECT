@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace EmpoleeysMonitor.Lib.Monitor.Mouse
+namespace EmployeesMonitor.Lib.Monitor.Mouse
 {
     static class MouseMonitorClass
     {

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace EmpoleeysMonitor.Lib.Model
+namespace EmployeesMonitor.Lib.Model
 {
     public class User
     {
-        public int IdUser { get; set; }
+        public int UserId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Login { get; set; }

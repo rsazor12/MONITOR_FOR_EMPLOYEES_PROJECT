@@ -1,4 +1,4 @@
-﻿namespace EmpoleeysMonitor.Lib.Model
+﻿namespace EmployeesMonitor.Lib.Model
 {
     public enum ActionType
     {

@@ -63,6 +63,7 @@
     <Compile Include="Monitor\IMonitor.cs" />
     <Compile Include="Monitor\Mouse\MouseMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Monitor\Keyboard\" />

@@ -1,5 +1,6 @@
-﻿using EmpoleeysMonitor.Lib;
-using EmpoleeysMonitor.Lib.Monitor.File;
+﻿using EmployeesMonitor.Lib;
+using EmployeesMonitor.Lib.DataBase;
+using EmployeesMonitor.Lib.Monitor.File;
 using System;
 
 namespace EmployeesMonitor
@@ -8,6 +9,17 @@ namespace EmployeesMonitor
     {
         static void Main(string[] args)
         {
+            try
+            {
+                SqlConnector connector = new SqlConnector();
+                var result =  connector.Connect();
+                result.Wait();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
             //Tu musimy tworzyć nasze obiekty monitorujące
             FileMonitor obFileMonitorClass = new FileMonitor("C:\\Workspace");
 

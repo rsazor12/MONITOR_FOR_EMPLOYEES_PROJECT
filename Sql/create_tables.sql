@@ -40,9 +40,9 @@ CREATE TABLE PROJECTS_USERS (
     	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-CREATE TABLE ROLES (
-    Id_Role serial PRIMARY KEY,
-    Role varchar (50) NOT NULL
+CREATE TABLE action_types (
+    Id_action_type serial PRIMARY KEY,
+    Name varchar (50) NOT NULL
     );
 
 CREATE TABLE USER_ACTIONS (

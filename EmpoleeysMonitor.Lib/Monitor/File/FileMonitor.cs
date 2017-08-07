@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmpoleeysMonitor.Lib.Monitor.File
+namespace EmployeesMonitor.Lib.Monitor.File
 {
     public class FileMonitor
     {
