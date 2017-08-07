@@ -1,4 +1,7 @@
-﻿using System;
+﻿using EmployeesMonitor.Lib;
+using EmployeesMonitor.Lib.DataBase;
+using EmployeesMonitor.Lib.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,8 +17,9 @@ namespace EmployeesMonitor
         public MainForm MainForm { get; set; }
         public LoginForm LoginForm { get; set; }
 
-        EmployeesMonitor.Lib.DataBase.SqlConnector connector;
-        EmployeesMonitor.Lib.Model.User user;
+        public EmployeesMonitor.Lib.DataBase.SqlConnector Connector { get; set; }
+        public EmployeesMonitor.Lib.Model.User User { get; set; }
+        public EmployeesMonitor.Lib.MonitorManager MonitorManager { get; set; }
 
         static Controller()
         {
@@ -36,8 +40,9 @@ namespace EmployeesMonitor
 
         void Initialize()
         {
-            user = new EmployeesMonitor.Lib.Model.User();
-            connector = new EmployeesMonitor.Lib.DataBase.SqlConnector();
+            User = new User();
+            Connector = new EmployeesMonitor.Lib.DataBase.SqlConnector();
+            MonitorManager = new EmployeesMonitor.Lib.MonitorManager(60);
         }
 
         public void ShowMainForm()
@@ -45,7 +50,7 @@ namespace EmployeesMonitor
             Cursor.Current = Cursors.WaitCursor;
             MainForm = new MainForm();
 
-            if (user.UserRole == EmployeesMonitor.Lib.Model.Role.Admin)
+            if (User.UserRole == EmployeesMonitor.Lib.Model.Role.Admin)
             {
 
             }
@@ -67,9 +72,9 @@ namespace EmployeesMonitor
                 //SqlConnector connector = new SqlConnector();
                 //User user = await connector.FindUser(login, pass);
 
-                user = await connector.FindUser(login, pass);
+                User = await Connector.FindUser(login, pass);
 
-                if (user != null)
+                if (User != null)
                 {
                     ShowMainForm();
                 }

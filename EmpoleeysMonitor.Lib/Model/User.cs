@@ -10,6 +10,12 @@ namespace EmployeesMonitor.Lib.Model
         public string Login { get; set; }
         public string Password { get; set; }
         public Role UserRole { get; set; }
-        public IList<int> ProjectIds { get; set; }
+        //public IList<int> ProjectIds { get; set; }
+
+        public override string ToString()
+        {
+            return Name + " " + Surname;
+        }
     }
+
 }

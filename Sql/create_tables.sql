@@ -15,19 +15,6 @@ CREATE TABLE USERS (
     	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-
-CREATE TABLE USERS (
-    ID_USER serial PRIMARY KEY,
-    Name varchar (30) NOT NULL,
-    Surname varchar (50) NOT NULL,
-    Login varchar (50) UNIQUE NOT NULL,
-    Pass varchar (100) NOT NULL,
-    Id_Role int NOT NULL,
-    CONSTRAINT user_id_role_fk FOREIGN KEY (id_role)
-    	REFERENCES ROLES (id_role) match simple
-    	ON UPDATE NO ACTION ON DELETE NO ACTION
-);
-
 CREATE TABLE PROJECTS_USERS (
     ID_USER int,
     ID_PROJECT int,
@@ -61,6 +48,16 @@ CREATE TABLE USER_ACTIONS (
     CONSTRAINT user_action_id_action_type_fk FOREIGN KEY (id_action_type)
     	REFERENCES Action_types (id_action_type) match simple
     	ON UPDATE NO ACTION ON DELETE NO ACTION    
+);
+
+CREATE TABLE PROJECTS (
+	ID_project serial PRIMARY KEY,
+	name varchar (100) NOT NULL,
+	id_supervisor int NOT NULL,
+	info varchar (300)
+    CONSTRAINT project_id_user_fk FOREIGN KEY (id_supervisor)
+    	REFERENCES users (id_user) match simple
+    	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 

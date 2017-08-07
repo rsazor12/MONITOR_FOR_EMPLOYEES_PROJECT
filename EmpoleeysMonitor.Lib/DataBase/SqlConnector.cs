@@ -4,6 +4,7 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.Collections.Generic;
 
 namespace EmployeesMonitor.Lib.DataBase
 {
@@ -57,7 +58,7 @@ namespace EmployeesMonitor.Lib.DataBase
 
                     using (command = connection.CreateCommand())
                     {
-                        command.CommandText = "Insert into dupa (uzupelnic) VALUES (@id_user, @id_project, @info, @date)";
+                        command.CommandText = "INSERT INTO user_actions VALUES (@id_user, @id_project, @info, @date)";
                         command.Parameters.Clear();
                         command.Parameters.AddWithValue("@id_user", action.UserId);
                         command.Parameters.AddWithValue("@id_project", action.UserId);
@@ -115,6 +116,122 @@ namespace EmployeesMonitor.Lib.DataBase
             {
                 connection.Close();
             }
+        }
+
+        public async Task<IList<Project>> FindUserProjects(User user)
+        {
+            List<Project> projects = new List<Project>();
+            try
+            {
+                using (connection = new NpgsqlConnection(GetConnectionString()))
+                {
+                    await Connect();
+
+                    using (command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT p.id_project, name, id_supervisor, info FROM projects p, projects_users pu WHERE p.id_project = pu.id_project AND pu.id_user = @id_user";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@id_user", user.UserId);                       
+
+                        using (var dataReader = await command.ExecuteReaderAsync())
+                        {
+                            while (dataReader.Read())
+                            {
+                                Project project = new Project();
+                                project.ProjectId = Convert.ToInt32(dataReader["ID_PROJECT"]);
+                                project.Name = Convert.ToString(dataReader["NAME"]);
+                                project.SupervisorId = Convert.ToInt32(dataReader["ID_SUPERVISOR"]);
+                                project.Info = Convert.ToString(dataReader["INFO"]);
+
+                                projects.Add(project);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return projects;
+        }
+
+        public async Task<IList<Project>> FindSupervisedProjects(User user)
+        {
+            List<Project> projects = new List<Project>();
+            try
+            {
+                using (connection = new NpgsqlConnection(GetConnectionString()))
+                {
+                    await Connect();
+
+                    using (command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT id_project, name, id_supervisor, info FROM projects WHERE id_supervisor = @id_user";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@id_user", user.UserId);
+
+                        using (var dataReader = await command.ExecuteReaderAsync())
+                        {
+                            while (dataReader.Read())
+                            {
+                                Project project = new Project();
+                                project.ProjectId = Convert.ToInt32(dataReader["ID_PROJECT"]);
+                                project.Name = Convert.ToString(dataReader["NAME"]);
+                                project.SupervisorId = Convert.ToInt32(dataReader["ID_SUPERVISOR"]);
+                                project.Info = Convert.ToString(dataReader["INFO"]);
+
+                                projects.Add(project);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return projects;
+        }
+
+        public async Task<IList<User>> FindProjectUsers(Project project)
+        {
+            List<User> users = new List<User>();
+            try
+            {
+                using (connection = new NpgsqlConnection(GetConnectionString()))
+                {
+                    await Connect();
+
+                    using (command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT u.id_user, login, pass, name, surname, id_role FROM users u, projects_users pu WHERE pu.id_user = u.id_user AND id_project = @id_project";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@id_project", project.ProjectId);
+
+                        using (var dataReader = await command.ExecuteReaderAsync())
+                        {
+                            while (dataReader.Read())
+                            {
+                                User user = new User();
+                                user.UserId = Convert.ToInt32(dataReader["ID_USER"]);
+                                user.Login = Convert.ToString(dataReader["LOGIN"]);
+                                user.Password = Convert.ToString(dataReader["PASS"]);
+                                user.Name = Convert.ToString(dataReader["NAME"]);
+                                user.Surname = Convert.ToString(dataReader["SURNAME"]);
+                                user.UserRole = (Role)Convert.ToInt32(dataReader["ID_ROLE"]);
+
+                                users.Add(user);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return users;
         }
     }
 }

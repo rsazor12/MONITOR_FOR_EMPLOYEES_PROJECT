@@ -15,7 +15,7 @@ namespace EmployeesMonitor
                 var result =  connector.Connect();
                 result.Wait();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
