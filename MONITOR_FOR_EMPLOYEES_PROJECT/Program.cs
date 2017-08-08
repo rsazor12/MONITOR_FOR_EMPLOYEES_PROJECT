@@ -21,7 +21,7 @@ namespace EmployeesMonitor
             }
 
             //Tu musimy tworzyć nasze obiekty monitorujące
-            FileMonitor obFileMonitorClass = new FileMonitor("C:\\Workspace");
+            FileMonitorClass obFileMonitorClass = new FileMonitorClass("C:\\Workspace");
 
             //Tu musimy przypisać Handlery z tych naszych monitorujących klas do Dispatchera
             MonitorManager monitorManager = new MonitorManager(60);

@@ -58,6 +58,6 @@ CREATE TABLE PROJECTS (
     CONSTRAINT project_id_user_fk FOREIGN KEY (id_supervisor)
     	REFERENCES users (id_user) match simple
     	ON UPDATE NO ACTION ON DELETE NO ACTION
-);
+); 
 
 

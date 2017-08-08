@@ -1,10 +1,9 @@
 ﻿using EmployeesMonitor.Lib;
 using EmployeesMonitor.Lib.DataBase;
 using EmployeesMonitor.Lib.Model;
+using EmployeesMonitor.Lib.Monitor.File;
+using EmployeesMonitor.Lib.Monitor.Mouse;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,9 +16,9 @@ namespace EmployeesMonitor
         public MainForm MainForm { get; set; }
         public LoginForm LoginForm { get; set; }
 
-        public EmployeesMonitor.Lib.DataBase.SqlConnector Connector { get; set; }
-        public EmployeesMonitor.Lib.Model.User User { get; set; }
-        public EmployeesMonitor.Lib.MonitorManager MonitorManager { get; set; }
+        public SqlConnector Connector { get; set; }
+        public User User { get; set; }
+        public MonitorManager MonitorManager { get; set; }
 
         static Controller()
         {
@@ -43,23 +42,15 @@ namespace EmployeesMonitor
             User = new User();
             Connector = new EmployeesMonitor.Lib.DataBase.SqlConnector();
             MonitorManager = new EmployeesMonitor.Lib.MonitorManager(60);
+
+            MonitorManager.RegisterMonitor(new FileMonitor());
+            MonitorManager.RegisterMonitor(new MouseMonitor());
         }
 
         public void ShowMainForm()
         {
             Cursor.Current = Cursors.WaitCursor;
             MainForm = new MainForm();
-
-            if (User.UserRole == EmployeesMonitor.Lib.Model.Role.Admin)
-            {
-
-            }
-            else
-            {
-
-            }
-          //  MainForm.UsersManagerToolStripMenuItem.Visible = user != null && user.Role == Role.Admin;
-          //  MainForm.NameLabel.Text += " " + user.Login + " !";
 
             MainForm.Show();
             LoginForm.Hide();
@@ -69,9 +60,6 @@ namespace EmployeesMonitor
         {
             try
             {
-                //SqlConnector connector = new SqlConnector();
-                //User user = await connector.FindUser(login, pass);
-
                 User = await Connector.FindUser(login, pass);
 
                 if (User != null)

@@ -36,15 +36,17 @@
             this.projectComboBox = new System.Windows.Forms.ComboBox();
             this.startButton = new System.Windows.Forms.Button();
             this.raportsTabPage = new System.Windows.Forms.TabPage();
+            this.groupComboBox = new System.Windows.Forms.ComboBox();
+            this.generateButton = new System.Windows.Forms.Button();
+            this.toDateLabel = new System.Windows.Forms.Label();
+            this.fromDateLabel = new System.Windows.Forms.Label();
             this.toDateTime = new System.Windows.Forms.DateTimePicker();
             this.fromDateTime = new System.Windows.Forms.DateTimePicker();
             this.userProjectLabel = new System.Windows.Forms.Label();
             this.userLabel = new System.Windows.Forms.Label();
             this.userProjectComboBox = new System.Windows.Forms.ComboBox();
             this.userComboBox = new System.Windows.Forms.ComboBox();
-            this.fromDateLabel = new System.Windows.Forms.Label();
-            this.toDateLabel = new System.Windows.Forms.Label();
-            this.helloLabel = new System.Windows.Forms.Label();
+            this.groupLabel = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.monitorTabPage.SuspendLayout();
             this.raportsTabPage.SuspendLayout();
@@ -57,12 +59,11 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(531, 234);
+            this.tabControl1.Size = new System.Drawing.Size(311, 234);
             this.tabControl1.TabIndex = 0;
             // 
             // monitorTabPage
             // 
-            this.monitorTabPage.Controls.Add(this.helloLabel);
             this.monitorTabPage.Controls.Add(this.workspaceButton);
             this.monitorTabPage.Controls.Add(this.workspaceLabel);
             this.monitorTabPage.Controls.Add(this.label1);
@@ -71,14 +72,14 @@
             this.monitorTabPage.Location = new System.Drawing.Point(4, 22);
             this.monitorTabPage.Name = "monitorTabPage";
             this.monitorTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.monitorTabPage.Size = new System.Drawing.Size(523, 208);
+            this.monitorTabPage.Size = new System.Drawing.Size(303, 208);
             this.monitorTabPage.TabIndex = 0;
             this.monitorTabPage.Text = "Monitor";
             this.monitorTabPage.UseVisualStyleBackColor = true;
             // 
             // workspaceButton
             // 
-            this.workspaceButton.Location = new System.Drawing.Point(31, 152);
+            this.workspaceButton.Location = new System.Drawing.Point(20, 113);
             this.workspaceButton.Name = "workspaceButton";
             this.workspaceButton.Size = new System.Drawing.Size(96, 23);
             this.workspaceButton.TabIndex = 4;
@@ -89,7 +90,7 @@
             // workspaceLabel
             // 
             this.workspaceLabel.AutoSize = true;
-            this.workspaceLabel.Location = new System.Drawing.Point(28, 127);
+            this.workspaceLabel.Location = new System.Drawing.Point(17, 88);
             this.workspaceLabel.Name = "workspaceLabel";
             this.workspaceLabel.Size = new System.Drawing.Size(105, 13);
             this.workspaceLabel.TabIndex = 3;
@@ -99,7 +100,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(28, 50);
+            this.label1.Location = new System.Drawing.Point(17, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(81, 13);
             this.label1.TabIndex = 2;
@@ -108,7 +109,7 @@
             // projectComboBox
             // 
             this.projectComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.projectComboBox.Location = new System.Drawing.Point(31, 66);
+            this.projectComboBox.Location = new System.Drawing.Point(20, 42);
             this.projectComboBox.Name = "projectComboBox";
             this.projectComboBox.Size = new System.Drawing.Size(256, 21);
             this.projectComboBox.TabIndex = 1;
@@ -119,7 +120,7 @@
             this.startButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.startButton.Enabled = false;
             this.startButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.startButton.Location = new System.Drawing.Point(406, 127);
+            this.startButton.Location = new System.Drawing.Point(197, 135);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(79, 48);
             this.startButton.TabIndex = 0;
@@ -129,6 +130,9 @@
             // 
             // raportsTabPage
             // 
+            this.raportsTabPage.Controls.Add(this.groupLabel);
+            this.raportsTabPage.Controls.Add(this.groupComboBox);
+            this.raportsTabPage.Controls.Add(this.generateButton);
             this.raportsTabPage.Controls.Add(this.toDateLabel);
             this.raportsTabPage.Controls.Add(this.fromDateLabel);
             this.raportsTabPage.Controls.Add(this.toDateTime);
@@ -140,30 +144,68 @@
             this.raportsTabPage.Location = new System.Drawing.Point(4, 22);
             this.raportsTabPage.Name = "raportsTabPage";
             this.raportsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.raportsTabPage.Size = new System.Drawing.Size(523, 208);
+            this.raportsTabPage.Size = new System.Drawing.Size(303, 208);
             this.raportsTabPage.TabIndex = 1;
-            this.raportsTabPage.Text = "Raports";
+            this.raportsTabPage.Text = "Reports";
             this.raportsTabPage.UseVisualStyleBackColor = true;
+            // 
+            // groupComboBox
+            // 
+            this.groupComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.groupComboBox.FormattingEnabled = true;
+            this.groupComboBox.Location = new System.Drawing.Point(76, 90);
+            this.groupComboBox.Name = "groupComboBox";
+            this.groupComboBox.Size = new System.Drawing.Size(195, 21);
+            this.groupComboBox.TabIndex = 9;
+            this.groupComboBox.SelectedIndexChanged += new System.EventHandler(this.groupComboBox_SelectedIndexChanged);
+            // 
+            // generateButton
+            // 
+            this.generateButton.Enabled = false;
+            this.generateButton.Location = new System.Drawing.Point(213, 153);
+            this.generateButton.Name = "generateButton";
+            this.generateButton.Size = new System.Drawing.Size(67, 34);
+            this.generateButton.TabIndex = 8;
+            this.generateButton.Text = "Generate";
+            this.generateButton.UseVisualStyleBackColor = true;
+            // 
+            // toDateLabel
+            // 
+            this.toDateLabel.AutoSize = true;
+            this.toDateLabel.Location = new System.Drawing.Point(19, 174);
+            this.toDateLabel.Name = "toDateLabel";
+            this.toDateLabel.Size = new System.Drawing.Size(20, 13);
+            this.toDateLabel.TabIndex = 7;
+            this.toDateLabel.Text = "To";
+            // 
+            // fromDateLabel
+            // 
+            this.fromDateLabel.AutoSize = true;
+            this.fromDateLabel.Location = new System.Drawing.Point(16, 138);
+            this.fromDateLabel.Name = "fromDateLabel";
+            this.fromDateLabel.Size = new System.Drawing.Size(30, 13);
+            this.fromDateLabel.TabIndex = 6;
+            this.fromDateLabel.Text = "From";
             // 
             // toDateTime
             // 
-            this.toDateTime.Location = new System.Drawing.Point(69, 163);
+            this.toDateTime.Location = new System.Drawing.Point(52, 168);
             this.toDateTime.Name = "toDateTime";
-            this.toDateTime.Size = new System.Drawing.Size(201, 20);
+            this.toDateTime.Size = new System.Drawing.Size(129, 20);
             this.toDateTime.TabIndex = 5;
             // 
             // fromDateTime
             // 
-            this.fromDateTime.Location = new System.Drawing.Point(69, 122);
+            this.fromDateTime.Location = new System.Drawing.Point(52, 132);
             this.fromDateTime.Name = "fromDateTime";
-            this.fromDateTime.Size = new System.Drawing.Size(201, 20);
+            this.fromDateTime.Size = new System.Drawing.Size(129, 20);
             this.fromDateTime.TabIndex = 4;
             this.fromDateTime.Value = new System.DateTime(2017, 8, 7, 19, 32, 20, 0);
             // 
             // userProjectLabel
             // 
             this.userProjectLabel.AutoSize = true;
-            this.userProjectLabel.Location = new System.Drawing.Point(17, 16);
+            this.userProjectLabel.Location = new System.Drawing.Point(29, 21);
             this.userProjectLabel.Name = "userProjectLabel";
             this.userProjectLabel.Size = new System.Drawing.Size(40, 13);
             this.userProjectLabel.TabIndex = 3;
@@ -172,7 +214,7 @@
             // userLabel
             // 
             this.userLabel.AutoSize = true;
-            this.userLabel.Location = new System.Drawing.Point(17, 59);
+            this.userLabel.Location = new System.Drawing.Point(40, 57);
             this.userLabel.Name = "userLabel";
             this.userLabel.Size = new System.Drawing.Size(29, 13);
             this.userLabel.TabIndex = 2;
@@ -182,9 +224,9 @@
             // 
             this.userProjectComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.userProjectComboBox.FormattingEnabled = true;
-            this.userProjectComboBox.Location = new System.Drawing.Point(20, 35);
+            this.userProjectComboBox.Location = new System.Drawing.Point(76, 18);
             this.userProjectComboBox.Name = "userProjectComboBox";
-            this.userProjectComboBox.Size = new System.Drawing.Size(250, 21);
+            this.userProjectComboBox.Size = new System.Drawing.Size(195, 21);
             this.userProjectComboBox.TabIndex = 1;
             this.userProjectComboBox.SelectedIndexChanged += new System.EventHandler(this.userProjectComboBox_SelectedIndexChanged);
             // 
@@ -192,47 +234,31 @@
             // 
             this.userComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.userComboBox.FormattingEnabled = true;
-            this.userComboBox.Location = new System.Drawing.Point(20, 78);
+            this.userComboBox.Location = new System.Drawing.Point(76, 54);
             this.userComboBox.Name = "userComboBox";
-            this.userComboBox.Size = new System.Drawing.Size(250, 21);
+            this.userComboBox.Size = new System.Drawing.Size(195, 21);
             this.userComboBox.TabIndex = 0;
+            this.userComboBox.SelectedIndexChanged += new System.EventHandler(this.userComboBox_SelectedIndexChanged);
             // 
-            // fromDateLabel
+            // groupLabel
             // 
-            this.fromDateLabel.AutoSize = true;
-            this.fromDateLabel.Location = new System.Drawing.Point(17, 128);
-            this.fromDateLabel.Name = "fromDateLabel";
-            this.fromDateLabel.Size = new System.Drawing.Size(30, 13);
-            this.fromDateLabel.TabIndex = 6;
-            this.fromDateLabel.Text = "From";
-            // 
-            // toDateLabel
-            // 
-            this.toDateLabel.AutoSize = true;
-            this.toDateLabel.Location = new System.Drawing.Point(20, 169);
-            this.toDateLabel.Name = "toDateLabel";
-            this.toDateLabel.Size = new System.Drawing.Size(20, 13);
-            this.toDateLabel.TabIndex = 7;
-            this.toDateLabel.Text = "To";
-            // 
-            // helloLabel
-            // 
-            this.helloLabel.AutoSize = true;
-            this.helloLabel.Location = new System.Drawing.Point(338, 16);
-            this.helloLabel.Name = "helloLabel";
-            this.helloLabel.Size = new System.Drawing.Size(31, 13);
-            this.helloLabel.TabIndex = 5;
-            this.helloLabel.Text = "Hello";
+            this.groupLabel.AutoSize = true;
+            this.groupLabel.Location = new System.Drawing.Point(19, 93);
+            this.groupLabel.Name = "groupLabel";
+            this.groupLabel.Size = new System.Drawing.Size(50, 13);
+            this.groupLabel.TabIndex = 10;
+            this.groupLabel.Text = "Group by";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(555, 258);
+            this.ClientSize = new System.Drawing.Size(335, 258);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "MainForm";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MainForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.tabControl1.ResumeLayout(false);
@@ -262,6 +288,8 @@
         private System.Windows.Forms.ComboBox userComboBox;
         private System.Windows.Forms.Label toDateLabel;
         private System.Windows.Forms.Label fromDateLabel;
-        private System.Windows.Forms.Label helloLabel;
+        private System.Windows.Forms.ComboBox groupComboBox;
+        private System.Windows.Forms.Button generateButton;
+        private System.Windows.Forms.Label groupLabel;
     }
 }

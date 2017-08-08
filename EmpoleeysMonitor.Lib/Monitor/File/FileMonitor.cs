@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmployeesMonitor.Lib.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +8,23 @@ using System.Threading.Tasks;
 
 namespace EmployeesMonitor.Lib.Monitor.File
 {
-    public class FileMonitor
+    public class FileMonitor: IMonitor
+    {
+        public void Start()
+        {
+        }
+
+        public void End()
+        {
+        }
+
+        public IList<UserAction> GetLatestUserActions()
+        {
+            return new List<UserAction>();
+        }
+    }
+
+    public class FileMonitorClass
     {
         string pathToWorkspace;
         //string[] filesInWorkspace;
@@ -16,7 +33,7 @@ namespace EmployeesMonitor.Lib.Monitor.File
         /// <summary>
         /// Konstruktor tworzy kopie wszystkich plikow zawartych w workspace(jesli nie istnieje to go tworzy) i kopiuje je do katalogu oldFiles
         /// </summary>
-        public FileMonitor(string pathToWorkspace)
+        public FileMonitorClass(string pathToWorkspace)
         {
             this.pathToWorkspace = pathToWorkspace;  // inicjuje sciezke
 

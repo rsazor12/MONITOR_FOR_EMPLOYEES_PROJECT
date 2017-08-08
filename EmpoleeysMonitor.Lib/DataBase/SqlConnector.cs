@@ -58,10 +58,10 @@ namespace EmployeesMonitor.Lib.DataBase
 
                     using (command = connection.CreateCommand())
                     {
-                        command.CommandText = "INSERT INTO user_actions VALUES (@id_user, @id_project, @info, @date)";
+                        command.CommandText = "INSERT INTO user_actions (id_user, id_project, id_action_type, action_date, info ) VALUES (@id_user, @id_project, @id_type, @date, @info)";
                         command.Parameters.Clear();
                         command.Parameters.AddWithValue("@id_user", action.UserId);
-                        command.Parameters.AddWithValue("@id_project", action.UserId);
+                        command.Parameters.AddWithValue("@id_project", action.ProjectId);
                         command.Parameters.AddWithValue("@id_type", (int) action.ActionType);
                         command.Parameters.AddWithValue("@info", action.Info);
                         command.Parameters.AddWithValue("@date", action.Date);
@@ -116,6 +116,42 @@ namespace EmployeesMonitor.Lib.DataBase
             {
                 connection.Close();
             }
+        }
+
+        public async Task<IList<Project>> GetAllProjects()
+        {
+            List<Project> projects = new List<Project>();
+            try
+            {
+                using (connection = new NpgsqlConnection(GetConnectionString()))
+                {
+                    await Connect();
+
+                    using (command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT id_project, name, id_supervisor, info FROM projects";
+
+                        using (var dataReader = await command.ExecuteReaderAsync())
+                        {
+                            while (dataReader.Read())
+                            {
+                                Project project = new Project();
+                                project.ProjectId = Convert.ToInt32(dataReader["ID_PROJECT"]);
+                                project.Name = Convert.ToString(dataReader["NAME"]);
+                                project.SupervisorId = Convert.ToInt32(dataReader["ID_SUPERVISOR"]);
+                                project.Info = Convert.ToString(dataReader["INFO"]);
+
+                                projects.Add(project);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return projects;
         }
 
         public async Task<IList<Project>> FindUserProjects(User user)
