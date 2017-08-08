@@ -2,9 +2,27 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using EmployeesMonitor.Lib.Model;
+using System.Collections.Generic;
 
-namespace EmpoleeysMonitor.Lib.Monitor.Mouse
+namespace EmployeesMonitor.Lib.Monitor.Mouse
 {
+    public class MouseMonitor : IMonitor
+    {
+        public void Start()
+        {
+        }
+
+        public void End()
+        {
+        }
+
+        public IList<UserAction> GetLatestUserActions()
+        {
+            return new List<UserAction>();
+        }
+    }
+
     static class MouseMonitorClass
     {
         public static LowLevelMouseProc _proc = HookCallback;//

@@ -1,43 +1,35 @@
-﻿using EmpoleeysMonitor.Lib.Model;
-using Oracle.ManagedDataAccess.Client;
+﻿using EmployeesMonitor.Lib.Model;
+using Npgsql;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Collections.Generic;
 
-namespace EmpoleeysMonitor.Lib.DataBase
+namespace EmployeesMonitor.Lib.DataBase
 {
-    class SqlConnector
+    public class SqlConnector
     {
-        static string host = "149.156.136.151";
-        static string port = "1521";
-        static string sid = "orcl";
-        static string login = "ii245";
-        static string password = "Zabawa";
+        private const string serverName = "horton.elephantsql.com";
+        private const string databaseName = "shaybbbb";
+        private const string userName = "shaybbbb";
+        private const string password = "FmyW_DXjK9B1mskGELS3SWIchp8MGKsC";
+       //  static string host = "149.156.136.151";
+       //  static string login = "ii245";
+       //  static string password = "Zabawa";
 
-        OracleConnection connection;
-        OracleCommand command;
-        User user;
+        private NpgsqlConnection connection;
+        private NpgsqlCommand command;
 
         public SqlConnector()
         {
-            Initialize();
-        }
-        void Initialize()
-        {
-            user = new User();
-        }
-        string GetConnectionString()
-        {
-            return String.Format("Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={0})(PORT={1}))(CONNECT_DATA=(SID={2})));User Id={3};Password={4};", host, port, sid, login, password);
+            connection = new NpgsqlConnection(GetConnectionString());
         }
 
-        void SetOracleCommand(string oracleConnection, string name = "")
+        private string GetConnectionString()
         {
-            command = new OracleCommand(oracleConnection + name, connection);
-            command.CommandType = CommandType.StoredProcedure;
+            return string.Format("Server={0};User Id={1};Password={2};Database={3};", serverName, userName, password, databaseName);
+           // return String.Format("Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={0})(PORT={1}))(CONNECT_DATA=(SID={2})));User Id={3};Password={4};", host, port, sid, login, password);
         }
 
         public async Task Connect()
@@ -49,116 +41,233 @@ namespace EmpoleeysMonitor.Lib.DataBase
                     await connection.OpenAsync();
                 });
             }
-            catch (Exception)
-            {
-                //ShowMessageBox("Connection failed.", "Cannot connect to sql database.\nCheck your connection and try again.");
+            catch (Exception ex)
+            {              
                 connection.Close();
-                throw;
+                throw new Exception("Cannot connect to sql database.\nCheck your connection and try again.", ex);
             }
         }
 
-        public async Task AddUserAction(string id_user, string id_action, string info)
+        public async Task AddUserAction(UserAction action)
         {
-            using (connection = new OracleConnection(GetConnectionString()))
+            try 
             {
-                await Connect();
-
-                SetOracleCommand("ADD_USER_ACTION");
-
-                command.Parameters.Add("@id_user", id_user);
-                command.Parameters.Add("@id_action", id_action);
-                command.Parameters.Add("@info", info);
-                try
+                using (connection = new NpgsqlConnection(GetConnectionString()))
                 {
-                    await command.ExecuteNonQueryAsync();
-                }
-                catch (Exception)
-                {
-                    //ShowMessageBox("Incorect SQL query.", "Insertig user activity into table failed.");
-                    connection.Close();
-                    return;
-                }
-                connection.Close();
-            }
-        }
+                    await Connect();
 
-        public async Task<User> FindUser(string input, string name)
-        {
-            using (connection = new OracleConnection(GetConnectionString()))
-            {
-                user = new User();
-                await Connect();
-
-                SetOracleCommand("FIND_BY_", name);
-
-                OracleParameter i_parm = new OracleParameter("@" + name, input);
-                i_parm.Value = input;
-                i_parm.Direction = ParameterDirection.Input;
-                command.Parameters.Add(i_parm);
-
-                OracleParameter o_parm = new OracleParameter();
-                o_parm.OracleDbType = OracleDbType.RefCursor;
-                o_parm.Direction = ParameterDirection.Output;
-                command.Parameters.Add(o_parm);
-
-                try
-                {
-                    using (var dataReader = await command.ExecuteReaderAsync())
+                    using (command = connection.CreateCommand())
                     {
-                        while (dataReader.Read())
+                        command.CommandText = "INSERT INTO user_actions (id_user, id_project, id_action_type, action_date, info ) VALUES (@id_user, @id_project, @id_type, @date, @info)";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@id_user", action.UserId);
+                        command.Parameters.AddWithValue("@id_project", action.ProjectId);
+                        command.Parameters.AddWithValue("@id_type", (int) action.ActionType);
+                        command.Parameters.AddWithValue("@info", action.Info);
+                        command.Parameters.AddWithValue("@date", action.Date);
+
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public async Task<User> FindUser(string username, string password)
+        {
+            password = StringManager.GetHashSha256(password);
+
+            try
+            {
+                using (connection = new NpgsqlConnection(GetConnectionString()))
+                {
+                    await Connect();
+
+                    using (command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT id_user, login, pass, name, surname, id_role FROM users WHERE login = @login AND pass = @pass";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@login", username);
+                        command.Parameters.AddWithValue("@pass", password);
+
+                        using (var dataReader = await command.ExecuteReaderAsync())
                         {
-                            user.Login = Convert.ToString(dataReader["LOGIN"]);
-                            user.Password = Convert.ToString(dataReader["PASSWORD"]);
-                            user.Name = Convert.ToString(dataReader["NAME"]);
-                            user.Surname = Convert.ToString(dataReader["SURNAME"]);
-                      //      user.Role = Convert.ToString(dataReader["ROLE"]);
+                            if (dataReader.Read())
+                            {
+                                User user = new User();
+                                user.UserId = Convert.ToInt32(dataReader["ID_USER"]);
+                                user.Login = Convert.ToString(dataReader["LOGIN"]);
+                                user.Password = Convert.ToString(dataReader["PASS"]);
+                                user.Name = Convert.ToString(dataReader["NAME"]);
+                                user.Surname = Convert.ToString(dataReader["SURNAME"]);
+                                user.UserRole = (Role) Convert.ToInt32(dataReader["ID_ROLE"]);
+                                return user;
+                            }
+
+                            return null;
                         }
                     }
-                    //connection.Close();
                 }
-                catch (Exception)
-                {
-                    //ShowMessageBox("Incorect SQL query.", "Executing query failed. Table does not exist, or field 'LOGIN' or 'PASSWORD' is missing.");
-                    connection.Close();
-                    throw;
-                }
-                return user;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 
-        public async Task<bool> DoUserExist(string input, string name)
+        public async Task<IList<Project>> GetAllProjects()
         {
-            int counter = 0;
-
-            using (connection = new OracleConnection(GetConnectionString()))
+            List<Project> projects = new List<Project>();
+            try
             {
-                await Connect();
-
-                SetOracleCommand("COUNT_BY_", name);
-
-                OracleParameter i_parm = new OracleParameter("@" + name, input);
-                i_parm.Value = input;
-                i_parm.Direction = ParameterDirection.Input;
-                command.Parameters.Add(i_parm);
-
-                OracleParameter o_parm = new OracleParameter("@counter", counter);
-                o_parm.Direction = ParameterDirection.Output;
-                command.Parameters.Add(o_parm);
-                try
+                using (connection = new NpgsqlConnection(GetConnectionString()))
                 {
-                    await command.ExecuteNonQueryAsync();
-                    counter = (int)command.Parameters["@counter"].Value;
-                    connection.Close();
-                    return !(counter == 0);
+                    await Connect();
 
-                }
-                catch (Exception)
-                {
-                    // ShowMessageBox("Incorect SQL query.", "Table does not exist, or some of the filed are missing.");
-                    connection.Close();
-                    return false;
+                    using (command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT id_project, name, id_supervisor, info FROM projects";
+
+                        using (var dataReader = await command.ExecuteReaderAsync())
+                        {
+                            while (dataReader.Read())
+                            {
+                                Project project = new Project();
+                                project.ProjectId = Convert.ToInt32(dataReader["ID_PROJECT"]);
+                                project.Name = Convert.ToString(dataReader["NAME"]);
+                                project.SupervisorId = Convert.ToInt32(dataReader["ID_SUPERVISOR"]);
+                                project.Info = Convert.ToString(dataReader["INFO"]);
+
+                                projects.Add(project);
+                            }
+                        }
+                    }
                 }
             }
+            finally
+            {
+                connection.Close();
+            }
+            return projects;
+        }
+
+        public async Task<IList<Project>> FindUserProjects(User user)
+        {
+            List<Project> projects = new List<Project>();
+            try
+            {
+                using (connection = new NpgsqlConnection(GetConnectionString()))
+                {
+                    await Connect();
+
+                    using (command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT p.id_project, name, id_supervisor, info FROM projects p, projects_users pu WHERE p.id_project = pu.id_project AND pu.id_user = @id_user";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@id_user", user.UserId);                       
+
+                        using (var dataReader = await command.ExecuteReaderAsync())
+                        {
+                            while (dataReader.Read())
+                            {
+                                Project project = new Project();
+                                project.ProjectId = Convert.ToInt32(dataReader["ID_PROJECT"]);
+                                project.Name = Convert.ToString(dataReader["NAME"]);
+                                project.SupervisorId = Convert.ToInt32(dataReader["ID_SUPERVISOR"]);
+                                project.Info = Convert.ToString(dataReader["INFO"]);
+
+                                projects.Add(project);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return projects;
+        }
+
+        public async Task<IList<Project>> FindSupervisedProjects(User user)
+        {
+            List<Project> projects = new List<Project>();
+            try
+            {
+                using (connection = new NpgsqlConnection(GetConnectionString()))
+                {
+                    await Connect();
+
+                    using (command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT id_project, name, id_supervisor, info FROM projects WHERE id_supervisor = @id_user";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@id_user", user.UserId);
+
+                        using (var dataReader = await command.ExecuteReaderAsync())
+                        {
+                            while (dataReader.Read())
+                            {
+                                Project project = new Project();
+                                project.ProjectId = Convert.ToInt32(dataReader["ID_PROJECT"]);
+                                project.Name = Convert.ToString(dataReader["NAME"]);
+                                project.SupervisorId = Convert.ToInt32(dataReader["ID_SUPERVISOR"]);
+                                project.Info = Convert.ToString(dataReader["INFO"]);
+
+                                projects.Add(project);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return projects;
+        }
+
+        public async Task<IList<User>> FindProjectUsers(Project project)
+        {
+            List<User> users = new List<User>();
+            try
+            {
+                using (connection = new NpgsqlConnection(GetConnectionString()))
+                {
+                    await Connect();
+
+                    using (command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT u.id_user, login, pass, name, surname, id_role FROM users u, projects_users pu WHERE pu.id_user = u.id_user AND id_project = @id_project";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@id_project", project.ProjectId);
+
+                        using (var dataReader = await command.ExecuteReaderAsync())
+                        {
+                            while (dataReader.Read())
+                            {
+                                User user = new User();
+                                user.UserId = Convert.ToInt32(dataReader["ID_USER"]);
+                                user.Login = Convert.ToString(dataReader["LOGIN"]);
+                                user.Password = Convert.ToString(dataReader["PASS"]);
+                                user.Name = Convert.ToString(dataReader["NAME"]);
+                                user.Surname = Convert.ToString(dataReader["SURNAME"]);
+                                user.UserRole = (Role)Convert.ToInt32(dataReader["ID_ROLE"]);
+
+                                users.Add(user);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return users;
         }
     }
 }

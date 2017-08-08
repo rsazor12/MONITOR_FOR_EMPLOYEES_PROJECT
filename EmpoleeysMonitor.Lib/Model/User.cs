@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace EmpoleeysMonitor.Lib.Model
+namespace EmployeesMonitor.Lib.Model
 {
     public class User
     {
-        public string Login { get; set; }
-        public string Password { get; set; }
+        public int UserId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public Role Role { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public Role UserRole { get; set; }
+        //public IList<int> ProjectIds { get; set; }
+
+        public override string ToString()
+        {
+            return Name + " " + Surname;
+        }
     }
+
 }

@@ -83,9 +83,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EmpoleeysMonitor.Lib\EmpoleeysMonitor.Lib.csproj">
+    <ProjectReference Include="..\EmpoleeysMonitor.Lib\EmployeesMonitor.Lib.csproj">
       <Project>{6fce5594-25c3-47c1-83a3-28464405923e}</Project>
-      <Name>EmpoleeysMonitor.Lib</Name>
+      <Name>EmployeesMonitor.Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
