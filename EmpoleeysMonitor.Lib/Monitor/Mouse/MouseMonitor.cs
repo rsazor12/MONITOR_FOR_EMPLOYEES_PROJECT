@@ -2,23 +2,41 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using EmployeesMonitor.Lib.Model;
+using System.Collections.Generic;
 
-namespace MONITOR_FOR_EMPLOYEES_PROJECT.MonitoringClasses.MouseMonitorClass
+namespace EmployeesMonitor.Lib.Monitor.Mouse
 {
-     static class MouseMonitorClass
+    public class MouseMonitor : IMonitor
+    {
+        public void Start()
+        {
+        }
+
+        public void End()
+        {
+        }
+
+        public IList<UserAction> GetLatestUserActions()
+        {
+            return new List<UserAction>();
+        }
+    }
+
+    static class MouseMonitorClass
     {
         public static LowLevelMouseProc _proc = HookCallback;//
         public static IntPtr _hookID = IntPtr.Zero; //inicjalizacja intem=0
         public static int lbutton = 0;
         public static int rbutton = 0;
 
-     /*   public static void Main()
-        {
-            _hookID = SetHook(_proc);
+        /*   public static void Main()
+           {
+               _hookID = SetHook(_proc);
 
-            Application.Run();
-            UnhookWindowsHookEx(_hookID);
-        }*/
+               Application.Run();
+               UnhookWindowsHookEx(_hookID);
+           }*/
 
 
         public static IntPtr SetHook(LowLevelMouseProc proc)
@@ -111,5 +129,4 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT.MonitoringClasses.MouseMonitorClass
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true, CallingConvention = CallingConvention.Winapi)]
         public static extern short GetKeyState(int keyCode);
     }
-
 }
