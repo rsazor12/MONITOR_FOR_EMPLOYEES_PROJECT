@@ -31,10 +31,5 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT
             timer.Start();
             
         }
-
-
-
-
-
     }
 }

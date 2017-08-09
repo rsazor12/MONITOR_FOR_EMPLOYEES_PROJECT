@@ -20,12 +20,12 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT
 
 
             //Tu musimy przypisać Handlery z tych naszych monitorujących klas do Dispatchera
-            MenagerOfTimerClass obMenagerOfDispatcherClass = new MenagerOfTimerClass(1000);//będzie uruchamiany co godzine
+            MenagerOfTimerClass obMenagerOfTimerClass = new MenagerOfTimerClass(1000);//będzie uruchamiany co godzine
 
-            obMenagerOfDispatcherClass.addHandlerFunctionToDispatcherTimer(new ElapsedEventHandler(obFileMonitorClass.FileMonitorHandlerOfDispatcher));
+            obMenagerOfTimerClass.addHandlerFunctionToDispatcherTimer(new ElapsedEventHandler(obFileMonitorClass.FileMonitorHandlerOfDispatcher));
 
             //Startujemy Dispatcher - UWAGA - tu wątek główny(main) BLOKUJE SIĘ !!!! nic pod tą linijką się nie wykona
-            obMenagerOfDispatcherClass.startTimer();
+            obMenagerOfTimerClass.startTimer();
 
            
             /*MouseMonitorClass._hookID = MouseMonitorClass.SetHook(MouseMonitorClass._proc);
@@ -50,6 +50,7 @@ namespace MONITOR_FOR_EMPLOYEES_PROJECT
                 conn = new MySql.Data.MySqlClient.MySqlConnection();
                 conn.ConnectionString = myConnectionString;
                 conn.Open();
+                
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
