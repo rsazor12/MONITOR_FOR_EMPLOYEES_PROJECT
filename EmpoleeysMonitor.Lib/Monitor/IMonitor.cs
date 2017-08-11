@@ -1,7 +1,7 @@
-﻿using EmpoleeysMonitor.Lib.Model;
+﻿using EmployeesMonitor.Lib.Model;
 using System.Collections.Generic;
 
-namespace EmpoleeysMonitor.Lib.Monitor
+namespace EmployeesMonitor.Lib.Monitor
 {
     /// <summary>
     /// Interfejs bazowy do klas monitorów.

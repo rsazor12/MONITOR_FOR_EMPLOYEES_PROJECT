@@ -1,9 +1,10 @@
-﻿using EmpoleeysMonitor.Lib.DataBase;
-using EmpoleeysMonitor.Lib.Monitor;
+﻿using EmployeesMonitor.Lib.DataBase;
+using EmployeesMonitor.Lib.Model;
+using EmployeesMonitor.Lib.Monitor;
 using System.Collections.Generic;
 using System.Timers;
 
-namespace EmpoleeysMonitor.Lib
+namespace EmployeesMonitor.Lib
 {
     public class MonitorManager
     {
@@ -46,9 +47,18 @@ namespace EmpoleeysMonitor.Lib
             }
         }
 
-        private void SendActionsToDatabase(object sender, ElapsedEventArgs e)
+        private async void SendActionsToDatabase(object sender, ElapsedEventArgs e)
         {
-            
+            List<UserAction> actions = new List<UserAction>();
+            foreach (var monitor in monitors)
+            {
+                actions.AddRange(monitor.GetLatestUserActions());
+            }
+
+            foreach (var action in actions)
+            {
+                await dbConnector.AddUserAction(action);
+            }
         }
     }
 }

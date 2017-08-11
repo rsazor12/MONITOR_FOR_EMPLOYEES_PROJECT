@@ -1,4 +1,7 @@
-﻿using EmpoleeysMonitor.Lib;
+﻿using EmployeesMonitor.Lib;
+using EmployeesMonitor.Lib.DataBase;
+using EmployeesMonitor.Lib.Monitor.File;
+using EmpoleeysMonitor.Lib;
 using EmpoleeysMonitor.Lib.Monitor.File;
 using Keystroke.API;
 using System;
@@ -11,8 +14,19 @@ namespace EmployeesMonitor
     {
         static void Main(string[] args)
         {
+            try
+            {
+                SqlConnector connector = new SqlConnector();
+                var result =  connector.Connect();
+                result.Wait();
+            }
+            catch (Exception)
+            {
+
+            }
+
             //Tu musimy tworzyć nasze obiekty monitorujące
-            FileMonitor obFileMonitorClass = new FileMonitor("C:\\Workspace");
+            FileMonitorClass obFileMonitorClass = new FileMonitorClass("C:\\Workspace");
 
             //Tu musimy przypisać Handlery z tych naszych monitorujących klas do Dispatchera
             MonitorManager monitorManager = new MonitorManager(60);
