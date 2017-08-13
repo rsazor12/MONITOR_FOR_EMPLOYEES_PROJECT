@@ -3,13 +3,14 @@ using EmployeesMonitor.Lib.DataBase;
 using EmployeesMonitor.Lib.Model;
 using EmployeesMonitor.Lib.Monitor.File;
 using EmployeesMonitor.Lib.Monitor.Mouse;
+using EmpoleeysMonitor.Lib.Monitor.Sample;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace EmployeesMonitor
 {
-    public partial class Controller
+    public class Controller
     {
         private static readonly Controller controllerInstance = new Controller();
 
@@ -43,6 +44,7 @@ namespace EmployeesMonitor
             Connector = new EmployeesMonitor.Lib.DataBase.SqlConnector();
             MonitorManager = new EmployeesMonitor.Lib.MonitorManager(60);
 
+       //     MonitorManager.RegisterMonitor(new SampleMonitor());
             MonitorManager.RegisterMonitor(new FileMonitor());
             MonitorManager.RegisterMonitor(new MouseMonitor());
         }
@@ -64,6 +66,7 @@ namespace EmployeesMonitor
 
                 if (User != null)
                 {
+                    MonitorManager.User = User;
                     ShowMainForm();
                 }
                 else

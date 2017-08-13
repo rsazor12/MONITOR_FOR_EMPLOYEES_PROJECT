@@ -8,6 +8,9 @@ namespace EmployeesMonitor.Lib
 {
     public class MonitorManager
     {
+        public User User { get; set; }
+        public Project Project { get; set; }
+
         private IList<IMonitor> monitors;
         private SqlConnector dbConnector;
         private Timer timer;
@@ -57,6 +60,8 @@ namespace EmployeesMonitor.Lib
 
             foreach (var action in actions)
             {
+                action.ProjectId = Project != null ? Project.ProjectId : -1;
+                action.UserId = User != null ? User.UserId : -1;
                 await dbConnector.AddUserAction(action);
             }
         }
