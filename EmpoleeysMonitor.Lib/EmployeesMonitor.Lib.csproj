@@ -63,6 +63,7 @@
     <Compile Include="Monitor\File\FileMonitor.cs" />
     <Compile Include="Monitor\IMonitor.cs" />
     <Compile Include="Monitor\Mouse\MouseMonitor.cs" />
+    <Compile Include="Monitor\Sample\SampleMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringManager.cs" />
   </ItemGroup>

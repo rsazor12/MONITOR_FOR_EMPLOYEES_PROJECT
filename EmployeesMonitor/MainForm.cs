@@ -11,6 +11,7 @@ namespace EmployeesMonitor
     public partial class MainForm : Form
     {
         private string folderPath;
+
         public MainForm()
         {
             InitializeComponent();
@@ -50,16 +51,20 @@ namespace EmployeesMonitor
             }
         }
 
-        private void startButton_Click(object sender, EventArgs e)
+        private async void startButton_Click(object sender, EventArgs e)
         {
             if (startButton.Text == "Start")
             {
+                projectComboBox.Enabled = false;
                 startButton.Text = "Pause";
+                await Controller.Instance.Connector.AddUserAction(CreateAction(ActionType.StartWorking));
                 Controller.Instance.MonitorManager.StartMonitoring();
             }
             else
             {
+                projectComboBox.Enabled = true;
                 startButton.Text = "Start";
+                await Controller.Instance.Connector.AddUserAction(CreateAction(ActionType.EndWorking));
                 Controller.Instance.MonitorManager.EndMonitoring();
             }
         }
@@ -82,6 +87,7 @@ namespace EmployeesMonitor
         private void projectComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ValidateStartButton();
+            Controller.Instance.MonitorManager.Project = projectComboBox.SelectedItem as Project;
         }
 
         private async void MainForm_Shown(object sender, EventArgs e)
@@ -130,6 +136,17 @@ namespace EmployeesMonitor
         private void groupComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ValidateGenerateButton();
+        }
+
+        private UserAction CreateAction(ActionType actionType)
+        {
+            return new UserAction()
+            {
+                ActionType = actionType,
+                Date = DateTime.UtcNow,
+                ProjectId = Controller.Instance.MonitorManager.Project.ProjectId,
+                UserId = Controller.Instance.User.UserId
+            };
         }
     }
 }
