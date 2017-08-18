@@ -58,12 +58,12 @@ namespace EmployeesMonitor.Lib.DataBase
 
                     using (command = connection.CreateCommand())
                     {
-                        command.CommandText = "INSERT INTO user_actions (id_user, id_project, id_action_type, action_date, info ) VALUES (@id_user, @id_project, @id_type, @date, @info)";
+                        command.CommandText = "INSERT INTO user_actions (id_user, id_project, id_action_type, action_date, info) VALUES (@id_user, @id_project, @id_type, @date, @info)";
                         command.Parameters.Clear();
                         command.Parameters.AddWithValue("@id_user", action.UserId);
                         command.Parameters.AddWithValue("@id_project", action.ProjectId);
                         command.Parameters.AddWithValue("@id_type", (int) action.ActionType);
-                        command.Parameters.AddWithValue("@info", action.Info);
+                        command.Parameters.AddWithValue("@info", action.Info ?? (object) DBNull.Value);
                         command.Parameters.AddWithValue("@date", action.Date);
 
                         await command.ExecuteNonQueryAsync();
