@@ -44,7 +44,7 @@ namespace EmployeesMonitor
             Connector = new EmployeesMonitor.Lib.DataBase.SqlConnector();
             MonitorManager = new EmployeesMonitor.Lib.MonitorManager(60);
 
-       //     MonitorManager.RegisterMonitor(new SampleMonitor());
+            MonitorManager.RegisterMonitor(new KeyboardMonitor());
             MonitorManager.RegisterMonitor(new FileMonitor());
             MonitorManager.RegisterMonitor(new MouseMonitor());
         }

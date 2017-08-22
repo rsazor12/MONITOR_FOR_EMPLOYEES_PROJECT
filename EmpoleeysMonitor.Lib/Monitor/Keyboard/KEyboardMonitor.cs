@@ -53,7 +53,6 @@ namespace EmpoleeysMonitor.Lib.Monitor.Sample
 
             while (true)
             {
-                Thread.Sleep(random.Next(3000, 10000));
                 lock (locker)
                 {
                     actions.Add(new UserAction()
