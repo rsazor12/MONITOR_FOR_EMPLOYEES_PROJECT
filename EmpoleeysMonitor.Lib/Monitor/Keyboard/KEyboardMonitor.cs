@@ -50,9 +50,6 @@ namespace EmpoleeysMonitor.Lib.Monitor.Sample
                 Application.Run();
             }
 
-
-            while (true)
-            {
                 lock (locker)
                 {
                     actions.Add(new UserAction()
@@ -62,7 +59,7 @@ namespace EmpoleeysMonitor.Lib.Monitor.Sample
                         Info = KeyString
                     });
                 }
-            }
+
         }
 
 
