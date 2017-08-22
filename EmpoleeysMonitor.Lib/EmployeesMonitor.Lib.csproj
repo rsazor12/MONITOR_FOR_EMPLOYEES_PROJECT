@@ -66,6 +66,7 @@
     <Compile Include="Monitor\Keyboard\Entities\KeyCode.cs" />
     <Compile Include="Monitor\Keyboard\Helpers\KeyboardLayout.cs" />
     <Compile Include="Monitor\Keyboard\Helpers\Window.cs" />
+    <Compile Include="Monitor\Keyboard\KeyboardMonitor.cs" />
     <Compile Include="Monitor\Keyboard\KeystrokeAPI.cs" />
     <Compile Include="Monitor\Keyboard\SaveToDB.cs" />
     <Compile Include="Monitor\Keyboard\User32.cs" />
