@@ -68,7 +68,6 @@
     <Compile Include="Monitor\Keyboard\Helpers\Window.cs" />
     <Compile Include="Monitor\Keyboard\KeyboardMonitor.cs" />
     <Compile Include="Monitor\Keyboard\KeystrokeAPI.cs" />
-    <Compile Include="Monitor\Keyboard\SaveToDB.cs" />
     <Compile Include="Monitor\Keyboard\User32.cs" />
     <Compile Include="Monitor\Mouse\MouseMonitor.cs" />
     <Compile Include="Monitor\Sample\SampleMonitor.cs" />

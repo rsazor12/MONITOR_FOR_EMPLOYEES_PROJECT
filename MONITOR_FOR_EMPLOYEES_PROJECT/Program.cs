@@ -4,7 +4,6 @@ using EmployeesMonitor.Lib.Monitor.File;
 using Keystroke.API;
 using System;
 using System.Windows.Forms;
-using SaveToFile;
 using Keystroke.API.CallbackObjects;
 
 namespace EmployeesMonitor
@@ -40,21 +39,6 @@ namespace EmployeesMonitor
             //Console.ReadKey();
             //Connect();
 
-
-            using (var api = new KeystrokeAPI())
-            {
-
-                api.CreateKeyboardHook(Callback);
-
-
-                Application.Run();
-            }
-        }
-
-        private static void Callback(KeyPressed obj)
-        {
-            MyStorage.logStorage += obj.ToString();
-            Console.WriteLine(MyStorage.logStorage);
         }
 
         public static void Connect()
