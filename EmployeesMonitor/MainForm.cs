@@ -12,6 +12,8 @@ namespace EmployeesMonitor
     {
         private string folderPath;
 
+        public string FolderPath { get; }
+
         public MainForm()
         {
             InitializeComponent();
@@ -49,6 +51,11 @@ namespace EmployeesMonitor
                     Properties.Settings.Default.Save();
                 }
             }
+
+            Controller.Instance.FileMonitorOb.setUp(folderPath,1);
+
+            Controller.Instance.MonitorManager.StartMonitoring();
+            
         }
 
         private async void startButton_Click(object sender, EventArgs e)

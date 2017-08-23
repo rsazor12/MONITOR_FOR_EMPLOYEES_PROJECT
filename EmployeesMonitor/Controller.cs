@@ -21,6 +21,12 @@ namespace EmployeesMonitor
         public User User { get; set; }
         public MonitorManager MonitorManager { get; set; }
 
+        public FileMonitor FileMonitorOb { get; set; }
+
+        public int FileMonitorInterval {get; set; } = 1000;
+
+
+
         static Controller()
         {
         }
@@ -44,8 +50,10 @@ namespace EmployeesMonitor
             Connector = new EmployeesMonitor.Lib.DataBase.SqlConnector();
             MonitorManager = new EmployeesMonitor.Lib.MonitorManager(60);
 
+            this.FileMonitorOb = new FileMonitor();
+
        //     MonitorManager.RegisterMonitor(new SampleMonitor());
-            MonitorManager.RegisterMonitor(new FileMonitor());
+            MonitorManager.RegisterMonitor(this.FileMonitorOb);
             MonitorManager.RegisterMonitor(new MouseMonitor());
         }
 

@@ -9,6 +9,7 @@
         KeyboardPressed = 5,
         LineAdded = 6,
         LineRemoved = 7,
-        Other = 8
+        LineCalculating = 8,
+        Other = 9
     }
 }

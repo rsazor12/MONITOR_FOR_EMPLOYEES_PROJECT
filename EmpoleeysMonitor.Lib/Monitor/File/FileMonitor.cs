@@ -1,41 +1,39 @@
 ﻿using EmployeesMonitor.Lib.Model;
+using EmployeesMonitor.Lib.Monitor;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Windows.Forms;
+
 
 namespace EmployeesMonitor.Lib.Monitor.File
 {
     public class FileMonitor: IMonitor
     {
-        public void Start()
-        {
-        }
+        //
+        private object locker = new object();
+        private List<UserAction> actions = new List<UserAction>();
+        private Thread thread;
+        private int monitoringInterval;
 
-        public void End()
-        {
-        }
-
-        public IList<UserAction> GetLatestUserActions()
-        {
-            return new List<UserAction>();
-        }
-    }
-
-    public class FileMonitorClass
-    {
         string pathToWorkspace;
-        //string[] filesInWorkspace;
         List<string> listOfPathsToFiles; //lista zawierajaca sciezki do wszystkich plikow w Workspace
+        Dictionary<string, int> dictionaryOfFilesAndLines;
 
-        /// <summary>
-        /// Konstruktor tworzy kopie wszystkich plikow zawartych w workspace(jesli nie istnieje to go tworzy) i kopiuje je do katalogu oldFiles
-        /// </summary>
-        public FileMonitorClass(string pathToWorkspace)
+        //
+        public FileMonitor()
+        {
+            this.dictionaryOfFilesAndLines = new Dictionary<string, int>();
+        }
+
+        public void setUp(string pathToWorkspace, int monitoringIntervalSeconds)
         {
             this.pathToWorkspace = pathToWorkspace;  // inicjuje sciezke
+            this.monitoringInterval = monitoringIntervalSeconds; //co ile sekund bedzie monitorowac pliki 
 
             //sprawdzam czy katalogi robocze istnieja           
             if (!Directory.Exists(pathToWorkspace))
@@ -54,9 +52,10 @@ namespace EmployeesMonitor.Lib.Monitor.File
             listOfPathsToFiles = Directory.GetFiles(pathToWorkspace,"*",SearchOption.AllDirectories).ToList();  //pobieram wszystkie ścieżki do plików znajdujacych sie w workspace
 
             //kopiuje wszystkie pliki z Workspace do katalogu oldFIles
-            listOfPathsToFiles.ForEach(f => System.IO.File.Copy(Path.Combine(Environment.CurrentDirectory, f),pathToWorkspace+"\\oldFiles\\"+Path.GetFileName(f)));
-            
+            listOfPathsToFiles.ForEach(f => System.IO.File.Copy(Path.Combine(Environment.CurrentDirectory, f),pathToWorkspace+"\\oldFiles\\"+Path.GetFileName(f)));    
+
         }
+
 
         /// <summary>
         /// Zwraca liczbę linii w podanym pliku (arg - ścieżka do pliku)
@@ -73,19 +72,62 @@ namespace EmployeesMonitor.Lib.Monitor.File
         /// </summary>
         private Dictionary<string,int> MonitorOfNumberOfLinesInAllFilesInWorkspace()
         {
-            Dictionary<string, int> dictionaryOfFilesAndLines = new Dictionary<string, int>();
+            //Dictionary<string, int> dictionaryOfFilesAndLines = new Dictionary<string, int>();
+            this.dictionaryOfFilesAndLines.Clear();
 
-            listOfPathsToFiles.ForEach(f => dictionaryOfFilesAndLines.Add(f, GetNumberOfLinesFromFile(f))); //dla kazdego pliku licze ilosc linii i wpisuje do słownika
+            listOfPathsToFiles.ForEach(f => this.dictionaryOfFilesAndLines.Add(f, GetNumberOfLinesFromFile(f))); //dla kazdego pliku licze ilosc linii i wpisuje do słownika
 
             return dictionaryOfFilesAndLines;  //zwracam gotowy słownik
         }
-        
-        /// <summary>
-        /// Handler do obsługi Dispatchera (zapisuje wszystkie dane do bazy jakie udało się zmonitorować na plikach w Workspace)
-        /// </summary>
-        public void FileMonitorHandlerOfDispatcher(object sender, EventArgs e)
+
+
+        public void Start()
         {
-            Console.WriteLine("a");
+            thread = new Thread(FileMonitorMainThread);
+            thread.Start();
+
+            
+        }
+
+        public void End()
+        {
+            thread.Abort();
+        }
+
+        public IList<EmployeesMonitor.Lib.Model.UserAction> GetLatestUserActions()
+        {
+            lock (locker)
+            {
+                var items = actions.GetRange(0, actions.Count); // shallow copy of list before clear
+                actions.Clear();
+                return items;
+            }
+        }
+
+        ///monitorowanie zmian na plikach
+        private void FileMonitorMainThread()
+        {
+            while (true)
+            {
+                Thread.Sleep(this.monitoringInterval * 1000);
+                this.MonitorOfNumberOfLinesInAllFilesInWorkspace();
+
+
+                lock (locker)
+                {
+                    foreach(var file in this.dictionaryOfFilesAndLines)
+                    {
+                       MessageBox.Show(file.Key +" : "+ file.Value);
+                       actions.Add(new UserAction()
+                        {
+                            ActionType = ActionType.LineCalculating,  //do bazy wrzucam tylko ilosc linii z plikow
+                            Date = DateTime.UtcNow,
+                            Info = file.Key.ToString() + ":" + file.Value.ToString()
+                        });
+                    }
+                    
+                }
+            }
         }
     }
 }
