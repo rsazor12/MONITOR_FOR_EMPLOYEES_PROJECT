@@ -50,11 +50,15 @@ namespace EmployeesMonitor
             Connector = new EmployeesMonitor.Lib.DataBase.SqlConnector();
             MonitorManager = new EmployeesMonitor.Lib.MonitorManager(60);
 
-         this.FileMonitorOb = new FileMonitor();
+<<<<<<< HEAD
+            this.FileMonitorOb = new FileMonitor();
 
        //     MonitorManager.RegisterMonitor(new SampleMonitor());
             MonitorManager.RegisterMonitor(this.FileMonitorOb);
-  
+=======
+            MonitorManager.RegisterMonitor(new KeyboardMonitor());
+            MonitorManager.RegisterMonitor(new FileMonitor());
+>>>>>>> 6c9951998fb54c226040c646595826514d614656
             MonitorManager.RegisterMonitor(new MouseMonitor());
         }
 

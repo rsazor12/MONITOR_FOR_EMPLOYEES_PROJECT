@@ -4,40 +4,44 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using EmployeesMonitor.Lib.Model;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace EmployeesMonitor.Lib.Monitor.Mouse
 {
     public class MouseMonitor : IMonitor
     {
+        private Thread thread;
+        public static LowLevelMouseProc _proc = HookCallback;
+        public static IntPtr _hookID = IntPtr.Zero;
+        public static int lbutton = 0;
+        public static int rbutton = 0;
+        private object locker = new object();
+
         public void Start()
         {
+            thread = new Thread(StartMonitoringMouse);
+            thread.Start();
         }
 
         public void End()
         {
+            thread.Abort();
         }
 
         public IList<UserAction> GetLatestUserActions()
         {
-            return new List<UserAction>();
+            return new List<UserAction>(); //?? jaki sens
         }
-    }
 
-    static class MouseMonitorClass
-    {
-        public static LowLevelMouseProc _proc = HookCallback;//
-        public static IntPtr _hookID = IntPtr.Zero; //inicjalizacja intem=0
-        public static int lbutton = 0;
-        public static int rbutton = 0;
-
-        /*   public static void Main()
-           {
-               _hookID = SetHook(_proc);
-
-               Application.Run();
-               UnhookWindowsHookEx(_hookID);
-           }*/
-
+        public void StartMonitoringMouse()
+        {
+            _hookID = SetHook(_proc);
+          while(thread.IsAlive)
+            {
+                
+            }
+            UnhookWindowsHookEx(_hookID);
+        }
 
         public static IntPtr SetHook(LowLevelMouseProc proc)
         {
@@ -48,7 +52,6 @@ namespace EmployeesMonitor.Lib.Monitor.Mouse
             }
         }
 
-
         public delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
 
 
@@ -57,18 +60,21 @@ namespace EmployeesMonitor.Lib.Monitor.Mouse
             if (nCode >= 0 && MouseMessages.WM_LBUTTONDOWN == (MouseMessages)wParam)
             {
                 MSLLHOOKSTRUCT hookStruct = (MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
-                Console.WriteLine(hookStruct.pt.x + ", " + hookStruct.pt.y + "\tkliknięcia LPM: " + ++lbutton);
+               // Console.WriteLine(hookStruct.pt.x + ", " + hookStruct.pt.y + "\tkliknięcia LPM: " + ++lbutton);
+                MessageBox.Show(hookStruct.pt.x + ", " + hookStruct.pt.y + "\tkliknięcia LPM: " + ++lbutton);
 
             }
             else if (nCode >= 0 && MouseMessages.WM_RBUTTONDOWN == (MouseMessages)wParam)
             {
                 MSLLHOOKSTRUCT hookStruct = (MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
-                Console.WriteLine(hookStruct.pt.x + ", " + hookStruct.pt.y + "\tkliknięcia PPM: " + ++rbutton);
+             //   Console.WriteLine(hookStruct.pt.x + ", " + hookStruct.pt.y + "\tkliknięcia PPM: " + ++rbutton);
+                MessageBox.Show(hookStruct.pt.x + ", " + hookStruct.pt.y + "\tkliknięcia PPM: " + ++rbutton);
             }
             else if (nCode >= 0 && MouseMessages.WM_MOUSEWHEEL == (MouseMessages)wParam)
             {
 
-                Console.WriteLine("Scroll");
+                //Console.WriteLine("Scroll");
+                MessageBox.Show("Scroll");
             }
 
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
@@ -76,7 +82,6 @@ namespace EmployeesMonitor.Lib.Monitor.Mouse
 
 
         private const int WH_MOUSE_LL = 14;
-
 
         private enum MouseMessages
         {
@@ -130,3 +135,4 @@ namespace EmployeesMonitor.Lib.Monitor.Mouse
         public static extern short GetKeyState(int keyCode);
     }
 }
+

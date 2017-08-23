@@ -62,14 +62,19 @@
     <Compile Include="MonitorManager.cs" />
     <Compile Include="Monitor\File\FileMonitor.cs" />
     <Compile Include="Monitor\IMonitor.cs" />
+    <Compile Include="Monitor\Keyboard\Entities\CallbackObjects\KeyPressed.cs" />
+    <Compile Include="Monitor\Keyboard\Entities\KeyCode.cs" />
+    <Compile Include="Monitor\Keyboard\Helpers\KeyboardLayout.cs" />
+    <Compile Include="Monitor\Keyboard\Helpers\Window.cs" />
+    <Compile Include="Monitor\Keyboard\KeyboardMonitor.cs" />
+    <Compile Include="Monitor\Keyboard\KeystrokeAPI.cs" />
+    <Compile Include="Monitor\Keyboard\User32.cs" />
     <Compile Include="Monitor\Mouse\MouseMonitor.cs" />
     <Compile Include="Monitor\Sample\SampleMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringManager.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Monitor\Keyboard\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
