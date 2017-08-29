@@ -52,7 +52,7 @@ namespace EmployeesMonitor
                 }
             }
 
-            Controller.Instance.FileMonitorOb.setUp(folderPath,1);
+            Controller.Instance.FileMonitorOb.setUp(folderPath,30);
 
             Controller.Instance.MonitorManager.StartMonitoring();
             

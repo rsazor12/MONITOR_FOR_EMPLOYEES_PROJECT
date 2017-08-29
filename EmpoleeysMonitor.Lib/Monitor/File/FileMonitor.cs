@@ -47,7 +47,8 @@ namespace EmployeesMonitor.Lib.Monitor.File
             }
 
             //usuwam wszystkie pliki z oldFiles
-            Directory.GetFiles(pathToWorkspace + @"\oldFiles").ToList().ForEach(f=> System.IO.File.Delete(f)); //usuwam wszystkie pliki z katalogu oldFiles - żeby miec świeżą wersje
+            string pathToOldFiles = pathToWorkspace + @"\oldFiles";
+            Directory.GetFiles(pathToOldFiles).ToList().ForEach(f=> System.IO.File.Delete(f)); //usuwam wszystkie pliki z katalogu oldFiles - żeby miec świeżą wersje
 
             listOfPathsToFiles = Directory.GetFiles(pathToWorkspace,"*",SearchOption.AllDirectories).ToList();  //pobieram wszystkie ścieżki do plików znajdujacych sie w workspace
 
@@ -117,7 +118,7 @@ namespace EmployeesMonitor.Lib.Monitor.File
                 {
                     foreach(var file in this.dictionaryOfFilesAndLines)
                     {
-                       MessageBox.Show(file.Key +" : "+ file.Value);
+                       //MessageBox.Show(file.Key +" : "+ file.Value);
                        actions.Add(new UserAction()
                         {
                             ActionType = ActionType.LineCalculating,  //do bazy wrzucam tylko ilosc linii z plikow
