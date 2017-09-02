@@ -149,9 +149,17 @@ namespace EmployeesMonitor
             };
         }
 
-        private void generateButton_Click(object sender, EventArgs e)
+        private async void generateButton_Click(object sender, EventArgs e)
         {
-            Controller.Instance.ShowRaportForm();
+            try
+            {
+                await Controller.Instance.ShowReport(userComboBox.SelectedItem as User, userProjectComboBox.SelectedItem as Project, (GroupingType)groupComboBox.SelectedItem, fromDateTime.Value, toDateTime.Value);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+         //   Controller.Instance.ShowRaportForm();
         }
     }
 }

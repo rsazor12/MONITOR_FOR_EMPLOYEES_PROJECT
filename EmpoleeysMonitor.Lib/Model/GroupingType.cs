@@ -2,6 +2,8 @@
 {
     public enum GroupingType
     {
+        None,
+        Minute,
         Hour,
         Day,
         Week,

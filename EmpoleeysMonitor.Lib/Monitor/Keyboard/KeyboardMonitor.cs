@@ -30,7 +30,7 @@ namespace EmpoleeysMonitor.Lib.Monitor.Sample
         {
             lock (locker)
             {
-                List<UserAction> actionList = new List<UserAction> { action };
+                List<UserAction> actionList = action != null ? new List<UserAction> { action } : new List<UserAction>();
                 action = null;
                 return actionList;
             }

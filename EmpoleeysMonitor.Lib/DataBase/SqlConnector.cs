@@ -264,9 +264,48 @@ namespace EmployeesMonitor.Lib.DataBase
             return users;
         }
 
-        public Dictionary<int,int> getDataToChart(MonitorType chartType)
+        public async Task<IList<UserAction>> GetDataToReport(int userId, int projectId, DateTime startDate, DateTime endDate)
         {
-            Dictionary<int, int> DataToChart = new Dictionary<int, int>();
+            List<UserAction> actions = new List<UserAction>();
+            try
+            {
+                using (connection = new NpgsqlConnection(GetConnectionString()))
+                {
+                    await Connect();
+
+                    using (command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT id_action_type, action_date, info FROM user_actions WHERE id_user = @id_user AND id_project = @id_project AND action_date BETWEEN @start AND @end";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@id_project", projectId);
+                        command.Parameters.AddWithValue("@id_user", userId);
+                        command.Parameters.AddWithValue("@start", startDate);
+                        command.Parameters.AddWithValue("@end", endDate);
+
+                        using (var dataReader = await command.ExecuteReaderAsync())
+                        {
+                            while (dataReader.Read())
+                            {
+                                UserAction action = new UserAction();
+                                action.ActionType = (ActionType) Convert.ToInt32(dataReader["ID_ACTION_TYPE"]);
+                                action.Date = Convert.ToDateTime(dataReader["ACTION_DATE"]);
+                                action.Info = Convert.ToString(dataReader["INFO"] ?? string.Empty);
+                                actions.Add(action);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return actions;
+        }
+
+        public Dictionary<int,int> GetDataToChart(MonitorType chartType)
+        {
+            Dictionary<int, int> dataToChart = new Dictionary<int, int>();
             Random rnd = new Random();
 
             switch (chartType)
@@ -292,10 +331,9 @@ namespace EmployeesMonitor.Lib.DataBase
 
             //losowe dane do wykresu
             for (int i = 0; i < 100; i++)
-                DataToChart.Add(i, rnd.Next(0, 100));
+                dataToChart.Add(i, rnd.Next(0, 100));
 
-            return DataToChart;
-            //throw new NotImplementedException();
+            return dataToChart;
         }
     }
 }
