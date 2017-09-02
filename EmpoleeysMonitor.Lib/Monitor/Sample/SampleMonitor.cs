@@ -2,18 +2,15 @@
 using EmployeesMonitor.Lib.Monitor;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace EmpoleeysMonitor.Lib.Monitor.Sample
 {
     public class SampleMonitor : IMonitor
     {
         private object locker = new object();
-        private List<UserAction> actions = new List<UserAction>();
-        private Random random = new Random();
+        private readonly List<UserAction> actions = new List<UserAction>();
+        private readonly Random random = new Random();
         private Thread thread;
 
         public void Start()
