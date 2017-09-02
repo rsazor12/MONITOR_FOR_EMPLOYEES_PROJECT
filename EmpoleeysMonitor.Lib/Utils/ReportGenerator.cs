@@ -75,7 +75,7 @@ namespace EmpoleeysMonitor.Lib
         {
             switch (groupType)
             {
-                case GroupingType.Minute: return start.AddMinutes(1);
+                case GroupingType.Quarter: return start.AddMinutes(15);
                 case GroupingType.Day: return start.AddDays(1);
                 case GroupingType.Hour: return start.AddHours(1);
                 case GroupingType.Month: return start.AddMonths(1);

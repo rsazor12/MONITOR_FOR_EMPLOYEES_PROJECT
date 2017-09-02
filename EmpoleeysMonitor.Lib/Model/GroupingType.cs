@@ -3,7 +3,7 @@
     public enum GroupingType
     {
         None,
-        Minute,
+        Quarter,
         Hour,
         Day,
         Week,
