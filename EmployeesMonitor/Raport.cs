@@ -1,13 +1,8 @@
-﻿using System;
+﻿using EmployeesMonitor.Lib.Model;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using EmpoleeysMonitor.Lib.Model;
 
 namespace EmployeesMonitor
 {
@@ -38,14 +33,7 @@ namespace EmployeesMonitor
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.selectedMonitorType = (MonitorType)this.comboBox1.SelectedIndex;
-
             this.refreshRaportData(Controller.Instance.Connector.getDataToChart(this.selectedMonitorType).Keys.ToList<int>(), Controller.Instance.Connector.getDataToChart(this.selectedMonitorType).Values.ToList<int>());
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

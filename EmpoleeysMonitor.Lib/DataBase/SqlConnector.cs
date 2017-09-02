@@ -1,11 +1,8 @@
 ﻿using EmployeesMonitor.Lib.Model;
 using Npgsql;
 using System;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
 using System.Collections.Generic;
-using EmpoleeysMonitor.Lib.Model;
+using System.Threading.Tasks;
 
 namespace EmployeesMonitor.Lib.DataBase
 {
@@ -15,9 +12,6 @@ namespace EmployeesMonitor.Lib.DataBase
         private const string databaseName = "shaybbbb";
         private const string userName = "shaybbbb";
         private const string password = "FmyW_DXjK9B1mskGELS3SWIchp8MGKsC";
-       //  static string host = "149.156.136.151";
-       //  static string login = "ii245";
-       //  static string password = "Zabawa";
 
         private NpgsqlConnection connection;
         private NpgsqlCommand command;
@@ -30,7 +24,6 @@ namespace EmployeesMonitor.Lib.DataBase
         private string GetConnectionString()
         {
             return string.Format("Server={0};User Id={1};Password={2};Database={3};", serverName, userName, password, databaseName);
-           // return String.Format("Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={0})(PORT={1}))(CONNECT_DATA=(SID={2})));User Id={3};Password={4};", host, port, sid, login, password);
         }
 
         public async Task Connect()
@@ -271,12 +264,11 @@ namespace EmployeesMonitor.Lib.DataBase
             return users;
         }
 
-        public Dictionary<int,int> getDataToChart( MonitorType chartType)
+        public Dictionary<int,int> getDataToChart(MonitorType chartType)
         {
             Dictionary<int, int> DataToChart = new Dictionary<int, int>();
             Random rnd = new Random();
 
-            //pewnie tu mozna wymyslic cos lepszego niz te switche bo kod przez to jest bardzo nieelastyczny ale już moze dajmy spokój i poprostu to oddajmy xD :P
             switch (chartType)
             {
                 case MonitorType.FileMonitor:

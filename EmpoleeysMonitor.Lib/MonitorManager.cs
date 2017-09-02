@@ -52,7 +52,6 @@ namespace EmployeesMonitor.Lib
 
         private async void SendActionsToDatabase(object sender, ElapsedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Send");
             List<UserAction> actions = new List<UserAction>();
             foreach (var monitor in monitors)
             {
