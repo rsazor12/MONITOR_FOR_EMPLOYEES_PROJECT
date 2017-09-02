@@ -3,6 +3,7 @@ using EmpoleeysMonitor.Lib.Monitor.Mouse;
 using EmpoleeysMonitor.Lib.Monitor.Mouse.CallbackObjects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -50,12 +51,20 @@ namespace EmployeesMonitor.Lib.Monitor.Mouse
             {
                 lock (locker)
                 {
-                    actions.Add(new UserAction()
+                    UserAction action = actions.FirstOrDefault(x => x.ActionType == obj.TypeOfEvent);
+                    if (action == null)
                     {
-                        ActionType = obj.TypeOfEvent,
-                        Date = DateTime.UtcNow,
-                        Info = null
-                    });
+                        actions.Add(new UserAction()
+                        {
+                            ActionType = obj.TypeOfEvent,
+                            Date = DateTime.UtcNow,
+                            Info = "1"
+                        });
+                    }
+                    else
+                    {
+                        action.Info = (int.Parse(action.Info) + 1).ToString();
+                    }
                 }
             }
         }
