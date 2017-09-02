@@ -36,6 +36,7 @@
             this.projectComboBox = new System.Windows.Forms.ComboBox();
             this.startButton = new System.Windows.Forms.Button();
             this.raportsTabPage = new System.Windows.Forms.TabPage();
+            this.groupLabel = new System.Windows.Forms.Label();
             this.groupComboBox = new System.Windows.Forms.ComboBox();
             this.generateButton = new System.Windows.Forms.Button();
             this.toDateLabel = new System.Windows.Forms.Label();
@@ -46,7 +47,6 @@
             this.userLabel = new System.Windows.Forms.Label();
             this.userProjectComboBox = new System.Windows.Forms.ComboBox();
             this.userComboBox = new System.Windows.Forms.ComboBox();
-            this.groupLabel = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.monitorTabPage.SuspendLayout();
             this.raportsTabPage.SuspendLayout();
@@ -149,6 +149,15 @@
             this.raportsTabPage.Text = "Reports";
             this.raportsTabPage.UseVisualStyleBackColor = true;
             // 
+            // groupLabel
+            // 
+            this.groupLabel.AutoSize = true;
+            this.groupLabel.Location = new System.Drawing.Point(19, 93);
+            this.groupLabel.Name = "groupLabel";
+            this.groupLabel.Size = new System.Drawing.Size(50, 13);
+            this.groupLabel.TabIndex = 10;
+            this.groupLabel.Text = "Group by";
+            // 
             // groupComboBox
             // 
             this.groupComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -168,6 +177,7 @@
             this.generateButton.TabIndex = 8;
             this.generateButton.Text = "Generate";
             this.generateButton.UseVisualStyleBackColor = true;
+            this.generateButton.Click += new System.EventHandler(this.generateButton_Click);
             // 
             // toDateLabel
             // 
@@ -239,15 +249,6 @@
             this.userComboBox.Size = new System.Drawing.Size(195, 21);
             this.userComboBox.TabIndex = 0;
             this.userComboBox.SelectedIndexChanged += new System.EventHandler(this.userComboBox_SelectedIndexChanged);
-            // 
-            // groupLabel
-            // 
-            this.groupLabel.AutoSize = true;
-            this.groupLabel.Location = new System.Drawing.Point(19, 93);
-            this.groupLabel.Name = "groupLabel";
-            this.groupLabel.Size = new System.Drawing.Size(50, 13);
-            this.groupLabel.TabIndex = 10;
-            this.groupLabel.Text = "Group by";
             // 
             // MainForm
             // 

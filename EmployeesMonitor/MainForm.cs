@@ -52,9 +52,9 @@ namespace EmployeesMonitor
                 }
             }
 
-            Controller.Instance.FileMonitorOb.setUp(folderPath,30);
+            Controller.Instance.FileMonitorOb.setUp(folderPath,60);
 
-            Controller.Instance.MonitorManager.StartMonitoring();
+           // Controller.Instance.MonitorManager.StartMonitoring();
             
         }
 
@@ -154,6 +154,11 @@ namespace EmployeesMonitor
                 ProjectId = Controller.Instance.MonitorManager.Project.ProjectId,
                 UserId = Controller.Instance.User.UserId
             };
+        }
+
+        private void generateButton_Click(object sender, EventArgs e)
+        {
+            Controller.Instance.ShowRaportForm();
         }
     }
 }

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Windows.Forms;
 
 
 namespace EmployeesMonitor.Lib.Monitor.File
@@ -125,8 +124,7 @@ namespace EmployeesMonitor.Lib.Monitor.File
                             Date = DateTime.UtcNow,
                             Info = file.Key.ToString() + ":" + file.Value.ToString()
                         });
-                    }
-                    
+                    } 
                 }
             }
         }

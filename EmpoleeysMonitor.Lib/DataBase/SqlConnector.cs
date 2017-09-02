@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Collections.Generic;
+using EmpoleeysMonitor.Lib.Model;
 
 namespace EmployeesMonitor.Lib.DataBase
 {
@@ -268,6 +269,41 @@ namespace EmployeesMonitor.Lib.DataBase
                 connection.Close();
             }
             return users;
+        }
+
+        public Dictionary<int,int> getDataToChart( MonitorType chartType)
+        {
+            Dictionary<int, int> DataToChart = new Dictionary<int, int>();
+            Random rnd = new Random();
+
+            //pewnie tu mozna wymyslic cos lepszego niz te switche bo kod przez to jest bardzo nieelastyczny ale już moze dajmy spokój i poprostu to oddajmy xD :P
+            switch (chartType)
+            {
+                case MonitorType.FileMonitor:
+                    {
+                        //DataChart = getFileMonitorChartData()
+                        
+                    }
+                    break;
+                case MonitorType.MouseMonitor:
+                    {
+                        //DataChart = getMouseMonitorChartData()
+
+                    }
+                    break;
+                case MonitorType.KeyboardMonitor:
+                    {
+                        //DataChart = getKeyboardMonitorChartData()
+                    }
+                    break;
+            }
+
+            //losowe dane do wykresu
+            for (int i = 0; i < 100; i++)
+                DataToChart.Add(i, rnd.Next(0, 100));
+
+            return DataToChart;
+            //throw new NotImplementedException();
         }
     }
 }

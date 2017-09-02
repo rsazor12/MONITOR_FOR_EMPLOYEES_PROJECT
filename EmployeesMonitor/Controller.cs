@@ -7,7 +7,7 @@ using EmpoleeysMonitor.Lib.Monitor.Sample;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Collections.Generic;
 namespace EmployeesMonitor
 {
     public class Controller
@@ -16,7 +16,7 @@ namespace EmployeesMonitor
 
         public MainForm MainForm { get; set; }
         public LoginForm LoginForm { get; set; }
-
+        public Raport RaportForm { get; set; }
         public SqlConnector Connector { get; set; }
         public User User { get; set; }
         public MonitorManager MonitorManager { get; set; }
@@ -65,6 +65,16 @@ namespace EmployeesMonitor
 
             MainForm.Show();
             LoginForm.Hide();
+        }
+
+        public void ShowRaportForm()
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            this.RaportForm = new Raport();
+
+            this.RaportForm.Show();
+
+            //this.RaportForm.refreshRaportData(this.Connector.getDataToChart(this.RaportForm.selectedMonitorType).Keys.t);
         }
 
         public async Task LoginToApp(string login, string pass)
