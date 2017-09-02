@@ -10,6 +10,7 @@
         LineAdded = 6,
         LineRemoved = 7,
         LineCalculating = 8,
-        Other = 9
+        Other = 9,
+        Scroll = 10
     }
 }
