@@ -1,7 +1,6 @@
 ﻿using EmployeesMonitor.Lib.Model;
 using EmpoleeysMonitor.Lib;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,8 +10,6 @@ namespace EmployeesMonitor
     public partial class MainForm : Form
     {
         private string folderPath;
-
-        public string FolderPath { get; }
 
         public MainForm()
         {
@@ -24,10 +21,10 @@ namespace EmployeesMonitor
         {
             Controller.Instance.MainForm = this;
             fromDateTime.Value = DateTime.Now.AddMonths(-1);
-            string workspace = Properties.Settings.Default["Workspace"].ToString();
-            if (!string.IsNullOrWhiteSpace(workspace))
+            folderPath = Properties.Settings.Default["Workspace"].ToString();
+            if (!string.IsNullOrWhiteSpace(folderPath))
             {
-                workspaceLabel.Text = workspace; 
+                workspaceLabel.Text = folderPath; 
             }
             groupComboBox.Items.AddRange(Enum.GetValues(typeof(GroupingType)).Cast<GroupingType>().Select(x =>(object)x).ToArray());
         }
@@ -52,8 +49,6 @@ namespace EmployeesMonitor
                 }
             }
 
-            Controller.Instance.FileMonitorOb.setUp(folderPath,30);
-
             Controller.Instance.MonitorManager.StartMonitoring();
             
         }
@@ -65,6 +60,7 @@ namespace EmployeesMonitor
                 projectComboBox.Enabled = false;
                 startButton.Text = "Pause";
                 await Controller.Instance.Connector.AddUserAction(CreateAction(ActionType.StartWorking));
+                Controller.Instance.FileMonitorOb.SetUp(folderPath, 30);
                 Controller.Instance.MonitorManager.StartMonitoring();
             }
             else

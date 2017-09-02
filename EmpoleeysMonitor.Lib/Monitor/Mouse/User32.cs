@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EmpoleeysMonitor.Lib.Monitor.Mouse
 {
@@ -29,6 +25,5 @@ namespace EmpoleeysMonitor.Lib.Monitor.Mouse
         internal static extern short GetKeyState(int keyCode);
 
         internal delegate IntPtr LowLevelHook(int nCode, IntPtr wParam, IntPtr lParam);
-
     }
 }

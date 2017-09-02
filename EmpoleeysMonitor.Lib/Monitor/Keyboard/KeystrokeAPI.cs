@@ -3,11 +3,10 @@ using Keystroke.API.Helpers;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Keystroke.API
 {
-    public class KeystrokeAPI : IDisposable
+    public class KeystrokeApi : IDisposable
 	{
 		private IntPtr globalKeyboardHookId;
 		private IntPtr currentModuleId;
@@ -18,7 +17,7 @@ namespace Keystroke.API
         private User32.LowLevelHook HookKeyboardDelegate; //We need to have this delegate as a private field so the GC doesn't collect it
         private Action<KeyPressed> keyPressedCallback;
 
-		public KeystrokeAPI()
+		public KeystrokeApi()
 		{
 			Process currentProcess = Process.GetCurrentProcess();
 			ProcessModule currentModudle = currentProcess.MainModule;

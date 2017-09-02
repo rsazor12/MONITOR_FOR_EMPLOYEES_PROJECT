@@ -1,13 +1,9 @@
 ﻿using EmployeesMonitor.Lib.Model;
-using EmployeesMonitor.Lib.Monitor;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
-using System.Windows.Forms;
 
 
 namespace EmployeesMonitor.Lib.Monitor.File
@@ -16,21 +12,20 @@ namespace EmployeesMonitor.Lib.Monitor.File
     {
         //
         private object locker = new object();
-        private List<UserAction> actions = new List<UserAction>();
+        private readonly List<UserAction> actions = new List<UserAction>();
         private Thread thread;
         private int monitoringInterval;
 
-        string pathToWorkspace;
-        List<string> listOfPathsToFiles; //lista zawierajaca sciezki do wszystkich plikow w Workspace
-        Dictionary<string, int> dictionaryOfFilesAndLines;
+        private string pathToWorkspace;
+        private List<string> listOfPathsToFiles; //lista zawierajaca sciezki do wszystkich plikow w Workspace
+        private readonly Dictionary<string, int> dictionaryOfFilesAndLines;
 
-        //
         public FileMonitor()
         {
             this.dictionaryOfFilesAndLines = new Dictionary<string, int>();
         }
 
-        public void setUp(string pathToWorkspace, int monitoringIntervalSeconds)
+        public void SetUp(string pathToWorkspace, int monitoringIntervalSeconds)
         {
             this.pathToWorkspace = pathToWorkspace;  // inicjuje sciezke
             this.monitoringInterval = monitoringIntervalSeconds; //co ile sekund bedzie monitorowac pliki 
@@ -54,7 +49,6 @@ namespace EmployeesMonitor.Lib.Monitor.File
 
             //kopiuje wszystkie pliki z Workspace do katalogu oldFIles
             listOfPathsToFiles.ForEach(f => System.IO.File.Copy(Path.Combine(Environment.CurrentDirectory, f),pathToWorkspace+"\\oldFiles\\"+Path.GetFileName(f)));    
-
         }
 
 
@@ -64,30 +58,22 @@ namespace EmployeesMonitor.Lib.Monitor.File
         private int GetNumberOfLinesFromFile(string pathToFile)
         {
             var lineCount = System.IO.File.ReadLines(pathToFile).Count(); //licze ilosc linii w podanym pliku i zwracam ta liczbe
-
             return lineCount;
         }
 
         /// <summary>
-        /// Zwraca słownik typu <nazwa_pliku><ilosc_linii>
+        /// Przelicza nowe wartości dla słownika <nazwa_pliku><ilosc_linii>
         /// </summary>
-        private Dictionary<string,int> MonitorOfNumberOfLinesInAllFilesInWorkspace()
+        private void MonitorOfNumberOfLinesInAllFilesInWorkspace()
         {
-            //Dictionary<string, int> dictionaryOfFilesAndLines = new Dictionary<string, int>();
             this.dictionaryOfFilesAndLines.Clear();
-
             listOfPathsToFiles.ForEach(f => this.dictionaryOfFilesAndLines.Add(f, GetNumberOfLinesFromFile(f))); //dla kazdego pliku licze ilosc linii i wpisuje do słownika
-
-            return dictionaryOfFilesAndLines;  //zwracam gotowy słownik
         }
-
 
         public void Start()
         {
             thread = new Thread(FileMonitorMainThread);
-            thread.Start();
-
-            
+            thread.Start();         
         }
 
         public void End()
@@ -95,7 +81,7 @@ namespace EmployeesMonitor.Lib.Monitor.File
             thread.Abort();
         }
 
-        public IList<EmployeesMonitor.Lib.Model.UserAction> GetLatestUserActions()
+        public IList<UserAction> GetLatestUserActions()
         {
             lock (locker)
             {
@@ -113,12 +99,10 @@ namespace EmployeesMonitor.Lib.Monitor.File
                 Thread.Sleep(this.monitoringInterval * 1000);
                 this.MonitorOfNumberOfLinesInAllFilesInWorkspace();
 
-
                 lock (locker)
                 {
                     foreach(var file in this.dictionaryOfFilesAndLines)
                     {
-                       //MessageBox.Show(file.Key +" : "+ file.Value);
                        actions.Add(new UserAction()
                         {
                             ActionType = ActionType.LineCalculating,  //do bazy wrzucam tylko ilosc linii z plikow

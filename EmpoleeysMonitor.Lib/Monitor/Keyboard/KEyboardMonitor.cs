@@ -12,7 +12,7 @@ namespace EmpoleeysMonitor.Lib.Monitor.Sample
     public class KeyboardMonitor : IMonitor
     {
         private object locker = new object();
-        private List<UserAction> actions = new List<UserAction>();
+        private readonly List<UserAction> actions = new List<UserAction>();
         private Thread thread;
 
         public void Start()
@@ -26,7 +26,7 @@ namespace EmpoleeysMonitor.Lib.Monitor.Sample
             thread.Abort();
         }
 
-        public IList<EmployeesMonitor.Lib.Model.UserAction> GetLatestUserActions()
+        public IList<UserAction> GetLatestUserActions()
         {
             lock (locker)
             {
@@ -38,7 +38,7 @@ namespace EmpoleeysMonitor.Lib.Monitor.Sample
 
         private void Init()
         {
-            using (var api = new KeystrokeAPI())
+            using (var api = new KeystrokeApi())
             {
                 api.CreateKeyboardHook(KeyPressedCallback);
                 Application.Run();

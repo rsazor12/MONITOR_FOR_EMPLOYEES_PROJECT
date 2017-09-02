@@ -67,11 +67,11 @@
     <Compile Include="Monitor\Keyboard\Helpers\KeyboardLayout.cs" />
     <Compile Include="Monitor\Keyboard\Helpers\Window.cs" />
     <Compile Include="Monitor\Keyboard\KeyboardMonitor.cs" />
-    <Compile Include="Monitor\Keyboard\KeystrokeAPI.cs" />
+    <Compile Include="Monitor\Keyboard\KeystrokeApi.cs" />
     <Compile Include="Monitor\Keyboard\User32.cs" />
     <Compile Include="Monitor\Mouse\MouseClicked.cs" />
     <Compile Include="Monitor\Mouse\MouseMonitor.cs" />
-    <Compile Include="Monitor\Mouse\MouseMonitorAPI.cs" />
+    <Compile Include="Monitor\Mouse\MouseMonitorApi.cs" />
     <Compile Include="Monitor\Mouse\User32.cs" />
     <Compile Include="Monitor\Sample\SampleMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -47,15 +47,15 @@ namespace EmployeesMonitor
         void Initialize()
         {
             User = new User();
-            Connector = new EmployeesMonitor.Lib.DataBase.SqlConnector();
-            MonitorManager = new EmployeesMonitor.Lib.MonitorManager(60);
+            Connector = new SqlConnector();
+            MonitorManager = new MonitorManager(60);
 
-         this.FileMonitorOb = new FileMonitor();
+            this.FileMonitorOb = new FileMonitor();
 
        //     MonitorManager.RegisterMonitor(new SampleMonitor());
             MonitorManager.RegisterMonitor(this.FileMonitorOb);
-  
             MonitorManager.RegisterMonitor(new MouseMonitor());
+            MonitorManager.RegisterMonitor(new KeyboardMonitor());
         }
 
         public void ShowMainForm()

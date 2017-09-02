@@ -11,13 +11,13 @@ namespace EmployeesMonitor.Lib
         public User User { get; set; }
         public Project Project { get; set; }
 
-        private IList<IMonitor> monitors;
-        private SqlConnector dbConnector;
-        private Timer timer;
+        private readonly IList<IMonitor> monitors;
+        private readonly SqlConnector dbConnector;
+        private readonly Timer timer;
 
         public MonitorManager(int saveDataIntervalInSeconds)
         {
-            timer = new System.Timers.Timer();
+            timer = new Timer();
             timer.Interval = saveDataIntervalInSeconds * 1000;
             timer.Elapsed += SendActionsToDatabase;
 

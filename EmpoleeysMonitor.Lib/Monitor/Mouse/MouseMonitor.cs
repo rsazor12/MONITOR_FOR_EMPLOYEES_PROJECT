@@ -1,20 +1,17 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using EmployeesMonitor.Lib.Model;
-using System.Collections.Generic;
-using System.Threading;
-using static EmpoleeysMonitor.Lib.Monitor.Mouse.User32;
+﻿using EmployeesMonitor.Lib.Model;
 using EmpoleeysMonitor.Lib.Monitor.Mouse;
 using EmpoleeysMonitor.Lib.Monitor.Mouse.CallbackObjects;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace EmployeesMonitor.Lib.Monitor.Mouse
 {
     public class MouseMonitor : IMonitor 
     {
         private Thread thread;
-        private List<UserAction> actions = new List<UserAction>();
+        private readonly List<UserAction> actions = new List<UserAction>();
         private object locker = new object();
 
         public void End()
@@ -40,7 +37,7 @@ namespace EmployeesMonitor.Lib.Monitor.Mouse
 
         private void Init()
         {
-            using (var api = new MouseMonitorAPI())
+            using (var api = new MouseMonitorApi())
             {
                 api.CreateMouseHook(MouseClickedCallback);
                 Application.Run();
@@ -49,20 +46,18 @@ namespace EmployeesMonitor.Lib.Monitor.Mouse
 
         private void MouseClickedCallback(MouseClicked obj)
         {
-
-            if (obj.typeOfEvent == ActionType.LeftMouseClick || obj.typeOfEvent == ActionType.RightMouseClick || obj.typeOfEvent == ActionType.Scroll)
+            if (obj.TypeOfEvent == ActionType.LeftMouseClick || obj.TypeOfEvent == ActionType.RightMouseClick || obj.TypeOfEvent == ActionType.Scroll)
             {
                 lock (locker)
                 {
                     actions.Add(new UserAction()
                     {
-                        ActionType = obj.typeOfEvent,
+                        ActionType = obj.TypeOfEvent,
                         Date = DateTime.UtcNow,
-                        Info = obj.ToString()
+                        Info = null
                     });
                 }
             }
-            else return;
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using EmployeesMonitor.Lib.Model;
 using Npgsql;
 using System;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EmployeesMonitor.Lib.DataBase
 {
@@ -14,9 +12,6 @@ namespace EmployeesMonitor.Lib.DataBase
         private const string databaseName = "shaybbbb";
         private const string userName = "shaybbbb";
         private const string password = "FmyW_DXjK9B1mskGELS3SWIchp8MGKsC";
-       //  static string host = "149.156.136.151";
-       //  static string login = "ii245";
-       //  static string password = "Zabawa";
 
         private NpgsqlConnection connection;
         private NpgsqlCommand command;

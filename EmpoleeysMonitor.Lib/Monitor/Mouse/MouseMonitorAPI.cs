@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace EmpoleeysMonitor.Lib.Monitor.Mouse
 {
-    class MouseMonitorAPI : IDisposable 
+    class MouseMonitorApi : IDisposable 
     {
         private enum MouseMessages
         {
@@ -37,11 +37,11 @@ namespace EmpoleeysMonitor.Lib.Monitor.Mouse
 
         private IntPtr globalMouseHookId;
         private IntPtr currentModuleId;
-        private User32.LowLevelHook HookMouseDelegate;
+        private User32.LowLevelHook hookMouseDelegate;
         private Action<MouseClicked> mouseClickedCallback;
         private ActionType mouseMessage;
 
-        public MouseMonitorAPI()
+        public MouseMonitorApi()
         {
             Process currentProcess = Process.GetCurrentProcess();
             ProcessModule currentModudle = currentProcess.MainModule;
@@ -51,8 +51,8 @@ namespace EmpoleeysMonitor.Lib.Monitor.Mouse
         public void CreateMouseHook(Action<MouseClicked> mouseClickedCallback)
         {
             this.mouseClickedCallback = mouseClickedCallback;
-            this.HookMouseDelegate = HookMouseCallbackImplementation;
-            this.globalMouseHookId = User32.SetWindowsHookEx(WH_MOUSE_LL, this.HookMouseDelegate, this.currentModuleId, 0);
+            this.hookMouseDelegate = HookMouseCallbackImplementation;
+            this.globalMouseHookId = User32.SetWindowsHookEx(WH_MOUSE_LL, this.hookMouseDelegate, this.currentModuleId, 0);
         }
 
 
@@ -67,23 +67,21 @@ namespace EmpoleeysMonitor.Lib.Monitor.Mouse
 
             if (nCode >= 0 && (WParam == MouseMessages.WM_LBUTTONDOWN || WParam == MouseMessages.WM_RBUTTONDOWN || WParam == MouseMessages.WM_MOUSEWHEEL))
             {
-
                 hookStruct = (MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
                 mouseMessage = actionType;
                 Console.WriteLine(hookStruct.pt.x + ", " + hookStruct.pt.y + " " + mouseMessage.ToString());
-
             }
 
             if (mouseMessage == ActionType.LeftMouseClick || mouseMessage == ActionType.RightMouseClick || mouseMessage == ActionType.Scroll)
-                MouseParser(wParam, lParam);
+                MouseParser();
 
             return User32.CallNextHookEx(globalMouseHookId, nCode, wParam, lParam);
         }
 
-        private void MouseParser(IntPtr wParam, IntPtr lParam)
+        private void MouseParser()
         {
             var key = new MouseClicked();
-            key.typeOfEvent = mouseMessage;
+            key.TypeOfEvent = mouseMessage;
             mouseClickedCallback.Invoke(key);
         }
 
