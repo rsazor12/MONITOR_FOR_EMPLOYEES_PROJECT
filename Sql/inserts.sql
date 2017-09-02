@@ -32,7 +32,13 @@ INSERT INTO action_types (name)
     VALUES ('LineRemoved');
     
 INSERT INTO action_types (name)
+    VALUES ('LineCalculating');
+
+INSERT INTO action_types (name)
     VALUES ('Other');
+	
+INSERT INTO action_types (name)
+    VALUES ('Scroll');
 
 
 -- USERS
