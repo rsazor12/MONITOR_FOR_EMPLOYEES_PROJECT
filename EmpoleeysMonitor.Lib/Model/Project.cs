@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace EmployeesMonitor.Lib.Model
 {
@@ -9,7 +8,6 @@ namespace EmployeesMonitor.Lib.Model
         public string Name { get; set; }
         public int SupervisorId { get; set; }
         public string Info { get; set; }
-       // public IList<int> UserIds { get; set; }
 
         public override string ToString()
         {
@@ -24,7 +22,7 @@ namespace EmployeesMonitor.Lib.Model
         public override bool Equals(object obj)
         {
             Project project = obj as Project;
-            return project != null ? ProjectId == project.ProjectId : false;
+            return project != null && ProjectId == project.ProjectId;
         }
 
         public int CompareTo(object obj)

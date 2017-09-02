@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataBase\SqlConnector.cs" />
-    <Compile Include="GroupingType.cs" />
+    <Compile Include="Model\GroupingType.cs" />
     <Compile Include="Model\ActionType.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\User.cs" />
@@ -75,7 +75,7 @@
     <Compile Include="Monitor\Mouse\User32.cs" />
     <Compile Include="Monitor\Sample\SampleMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringManager.cs" />
+    <Compile Include="Utils\StringManager.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
