@@ -147,7 +147,7 @@ namespace EmployeesMonitor
             return new UserAction()
             {
                 ActionType = actionType,
-                Date = DateTime.UtcNow,
+                Date =  DateTime.Now,
                 ProjectId = Controller.Instance.MonitorManager.Project.ProjectId,
                 UserId = Controller.Instance.User.UserId
             };

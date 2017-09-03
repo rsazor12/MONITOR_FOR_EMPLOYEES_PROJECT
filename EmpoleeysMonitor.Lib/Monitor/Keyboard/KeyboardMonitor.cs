@@ -55,7 +55,7 @@ namespace EmpoleeysMonitor.Lib.Monitor.Sample
                     action = new UserAction()
                     {
                         ActionType = ActionType.KeyboardPressed,
-                        Date = DateTime.UtcNow,
+                        Date =  DateTime.Now,
                         Info = obj.ToString()
                     };
                 }

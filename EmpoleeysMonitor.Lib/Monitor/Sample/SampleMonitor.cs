@@ -44,7 +44,7 @@ namespace EmpoleeysMonitor.Lib.Monitor.Sample
                     actions.Add(new UserAction()
                     {
                         ActionType = ActionType.Other,
-                        Date = DateTime.UtcNow,
+                        Date =  DateTime.Now,
                         Info = "Test"
                     });
                 }

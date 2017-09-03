@@ -57,7 +57,7 @@ namespace EmployeesMonitor.Lib.Monitor.Mouse
                         actions.Add(new UserAction()
                         {
                             ActionType = obj.TypeOfEvent,
-                            Date = DateTime.UtcNow,
+                            Date =  DateTime.Now,
                             Info = "1"
                         });
                     }

@@ -42,7 +42,7 @@ namespace EmpoleeysMonitor.Lib
                 case GroupingType.Week: return start.AddDays(7);
             }
 
-            return DateTime.UtcNow;
+            return  DateTime.Now;
         }
 
         private static DataTable CreateData(IEnumerable<UserAction> actions, GroupingType groupType, DateTime start, DateTime end)

@@ -106,7 +106,7 @@ namespace EmployeesMonitor.Lib.Monitor.File
                        actions.Add(new UserAction()
                         {
                             ActionType = ActionType.LineCalculating,  //do bazy wrzucam tylko ilosc linii z plikow
-                            Date = DateTime.UtcNow,
+                            Date =  DateTime.Now,
                             Info = file.Key.ToString() + ":" + file.Value.ToString()
                         });
                     } 
