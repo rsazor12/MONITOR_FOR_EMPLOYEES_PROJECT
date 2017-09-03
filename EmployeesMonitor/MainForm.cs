@@ -71,7 +71,11 @@ namespace EmployeesMonitor
 
         private void ValidateGenerateButton()
         {
-            generateButton.Enabled = userProjectComboBox.SelectedIndex >= 0 && userComboBox.SelectedIndex >= 0 && groupComboBox.SelectedIndex >= 0;
+            btnGenerateChart.Enabled = generateButton.Enabled = userProjectComboBox.SelectedIndex >= 0 && userComboBox.SelectedIndex >= 0 && groupComboBox.SelectedIndex >= 0;
+            if (btnGenerateChart.Enabled)
+            {
+                btnGenerateChart.Enabled = ((GroupingType)groupComboBox.SelectedItem) != GroupingType.None;
+            }
         }
 
         private void ValidateStartButton()
@@ -159,7 +163,11 @@ namespace EmployeesMonitor
             {
                 MessageBox.Show(ex.Message);
             }
-         //   Controller.Instance.ShowRaportForm();
+        }
+
+        private void btnGenerateChart_Click(object sender, EventArgs e)
+        {
+            Controller.Instance.ShowReportForm(userComboBox.SelectedItem as User, userProjectComboBox.SelectedItem as Project, (GroupingType)groupComboBox.SelectedItem, fromDateTime.Value, toDateTime.Value);
         }
     }
 }

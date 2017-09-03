@@ -31,6 +31,20 @@ namespace EmpoleeysMonitor.Lib
             }
         }
 
+        public static DateTime GetGroupEndDate(DateTime start, GroupingType groupType)
+        {
+            switch (groupType)
+            {
+                case GroupingType.Quarter: return start.AddMinutes(15);
+                case GroupingType.Day: return start.AddDays(1);
+                case GroupingType.Hour: return start.AddHours(1);
+                case GroupingType.Month: return start.AddMonths(1);
+                case GroupingType.Week: return start.AddDays(7);
+            }
+
+            return DateTime.UtcNow;
+        }
+
         private static DataTable CreateData(IEnumerable<UserAction> actions, GroupingType groupType, DateTime start, DateTime end)
         {
             DataTable dataTable = new DataTable();
@@ -69,20 +83,6 @@ namespace EmpoleeysMonitor.Lib
             }
 
             return dataTable;
-        }
-
-        private static DateTime GetGroupEndDate(DateTime start, GroupingType groupType)
-        {
-            switch (groupType)
-            {
-                case GroupingType.Quarter: return start.AddMinutes(15);
-                case GroupingType.Day: return start.AddDays(1);
-                case GroupingType.Hour: return start.AddHours(1);
-                case GroupingType.Month: return start.AddMonths(1);
-                case GroupingType.Week: return start.AddDays(7);
-            }
-
-            return DateTime.UtcNow;
         }
 
         private static PdfPTable ConvertToPdfTable(DataTable dataTable)

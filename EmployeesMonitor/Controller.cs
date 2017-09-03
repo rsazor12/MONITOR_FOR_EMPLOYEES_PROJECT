@@ -18,7 +18,7 @@ namespace EmployeesMonitor
 
         public MainForm MainForm { get; set; }
         public LoginForm LoginForm { get; set; }
-        public Raport RaportForm { get; set; }
+        public ReportForm ReportForm { get; set; }
         public SqlConnector Connector { get; set; }
         public User User { get; set; }
         public MonitorManager MonitorManager { get; set; }
@@ -72,14 +72,12 @@ namespace EmployeesMonitor
             System.Diagnostics.Process.Start(filename);
         }
 
-        public void ShowRaportForm()
+        public void ShowReportForm(User user, Project project, GroupingType groupType, DateTime start, DateTime end)
         {
             Cursor.Current = Cursors.WaitCursor;
-            this.RaportForm = new Raport();
-
-            this.RaportForm.Show();
-
-            //this.RaportForm.refreshRaportData(this.Connector.getDataToChart(this.RaportForm.selectedMonitorType).Keys.t);
+            this.ReportForm = new ReportForm(user, project, groupType, start, end);
+            Cursor.Current = Cursors.Arrow;
+            this.ReportForm.ShowDialog();
         }
 
         public async Task LoginToApp(string login, string pass)

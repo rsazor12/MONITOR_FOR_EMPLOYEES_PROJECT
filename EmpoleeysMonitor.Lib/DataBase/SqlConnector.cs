@@ -264,7 +264,7 @@ namespace EmployeesMonitor.Lib.DataBase
             return users;
         }
 
-        public async Task<IList<UserAction>> GetDataToReport(int userId, int projectId, DateTime startDate, DateTime endDate)
+        public async Task<IList<UserAction>> GetDataToReport(int userId, int projectId, DateTime startDate, DateTime endDate, ActionType? type = null)
         {
             List<UserAction> actions = new List<UserAction>();
             try
@@ -275,12 +275,16 @@ namespace EmployeesMonitor.Lib.DataBase
 
                     using (command = connection.CreateCommand())
                     {
-                        command.CommandText = "SELECT id_action_type, action_date, info FROM user_actions WHERE id_user = @id_user AND id_project = @id_project AND action_date BETWEEN @start AND @end";
+                        command.CommandText = "SELECT id_action_type, action_date, info FROM user_actions WHERE id_user = @id_user AND id_project = @id_project AND action_date BETWEEN @start AND @end" + (type != null ? " AND id_action_type = @type" : string.Empty);
                         command.Parameters.Clear();
                         command.Parameters.AddWithValue("@id_project", projectId);
                         command.Parameters.AddWithValue("@id_user", userId);
                         command.Parameters.AddWithValue("@start", startDate);
                         command.Parameters.AddWithValue("@end", endDate);
+                        if (type != null)
+                        {
+                            command.Parameters.AddWithValue("@type", (int) type.Value);
+                        }
 
                         using (var dataReader = await command.ExecuteReaderAsync())
                         {
@@ -301,39 +305,6 @@ namespace EmployeesMonitor.Lib.DataBase
                 connection.Close();
             }
             return actions;
-        }
-
-        public Dictionary<int,int> GetDataToChart(MonitorType chartType)
-        {
-            Dictionary<int, int> dataToChart = new Dictionary<int, int>();
-            Random rnd = new Random();
-
-            switch (chartType)
-            {
-                case MonitorType.FileMonitor:
-                    {
-                        //DataChart = getFileMonitorChartData()
-                        
-                    }
-                    break;
-                case MonitorType.MouseMonitor:
-                    {
-                        //DataChart = getMouseMonitorChartData()
-
-                    }
-                    break;
-                case MonitorType.KeyboardMonitor:
-                    {
-                        //DataChart = getKeyboardMonitorChartData()
-                    }
-                    break;
-            }
-
-            //losowe dane do wykresu
-            for (int i = 0; i < 100; i++)
-                dataToChart.Add(i, rnd.Next(0, 100));
-
-            return dataToChart;
         }
     }
 }

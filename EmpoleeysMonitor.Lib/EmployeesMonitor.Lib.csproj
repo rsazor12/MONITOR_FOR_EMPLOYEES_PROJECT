@@ -59,7 +59,6 @@
     <Compile Include="DataBase\SqlConnector.cs" />
     <Compile Include="Model\GroupingType.cs" />
     <Compile Include="Model\ActionType.cs" />
-    <Compile Include="Model\MonitorType.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\Role.cs" />

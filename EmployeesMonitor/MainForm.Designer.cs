@@ -47,6 +47,7 @@
             this.userLabel = new System.Windows.Forms.Label();
             this.userProjectComboBox = new System.Windows.Forms.ComboBox();
             this.userComboBox = new System.Windows.Forms.ComboBox();
+            this.btnGenerateChart = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.monitorTabPage.SuspendLayout();
             this.raportsTabPage.SuspendLayout();
@@ -137,6 +138,7 @@
             // 
             // raportsTabPage
             // 
+            this.raportsTabPage.Controls.Add(this.btnGenerateChart);
             this.raportsTabPage.Controls.Add(this.groupLabel);
             this.raportsTabPage.Controls.Add(this.groupComboBox);
             this.raportsTabPage.Controls.Add(this.generateButton);
@@ -181,12 +183,12 @@
             // generateButton
             // 
             this.generateButton.Enabled = false;
-            this.generateButton.Location = new System.Drawing.Point(320, 235);
+            this.generateButton.Location = new System.Drawing.Point(264, 206);
             this.generateButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.generateButton.Name = "generateButton";
-            this.generateButton.Size = new System.Drawing.Size(100, 52);
+            this.generateButton.Size = new System.Drawing.Size(140, 47);
             this.generateButton.TabIndex = 8;
-            this.generateButton.Text = "Generate";
+            this.generateButton.Text = "Generate PDF";
             this.generateButton.UseVisualStyleBackColor = true;
             this.generateButton.Click += new System.EventHandler(this.generateButton_Click);
             // 
@@ -212,18 +214,18 @@
             // 
             // toDateTime
             // 
-            this.toDateTime.Location = new System.Drawing.Point(78, 258);
+            this.toDateTime.Location = new System.Drawing.Point(78, 263);
             this.toDateTime.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.toDateTime.Name = "toDateTime";
-            this.toDateTime.Size = new System.Drawing.Size(192, 26);
+            this.toDateTime.Size = new System.Drawing.Size(178, 26);
             this.toDateTime.TabIndex = 5;
             // 
             // fromDateTime
             // 
-            this.fromDateTime.Location = new System.Drawing.Point(78, 203);
+            this.fromDateTime.Location = new System.Drawing.Point(78, 207);
             this.fromDateTime.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.fromDateTime.Name = "fromDateTime";
-            this.fromDateTime.Size = new System.Drawing.Size(192, 26);
+            this.fromDateTime.Size = new System.Drawing.Size(178, 26);
             this.fromDateTime.TabIndex = 4;
             this.fromDateTime.Value = new System.DateTime(2017, 8, 7, 19, 32, 20, 0);
             // 
@@ -269,6 +271,18 @@
             this.userComboBox.TabIndex = 0;
             this.userComboBox.SelectedIndexChanged += new System.EventHandler(this.userComboBox_SelectedIndexChanged);
             // 
+            // btnGenerateChart
+            // 
+            this.btnGenerateChart.Enabled = false;
+            this.btnGenerateChart.Location = new System.Drawing.Point(264, 263);
+            this.btnGenerateChart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnGenerateChart.Name = "btnGenerateChart";
+            this.btnGenerateChart.Size = new System.Drawing.Size(140, 42);
+            this.btnGenerateChart.TabIndex = 11;
+            this.btnGenerateChart.Text = "Generate chart";
+            this.btnGenerateChart.UseVisualStyleBackColor = true;
+            this.btnGenerateChart.Click += new System.EventHandler(this.btnGenerateChart_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -313,5 +327,6 @@
         private System.Windows.Forms.ComboBox groupComboBox;
         private System.Windows.Forms.Button generateButton;
         private System.Windows.Forms.Label groupLabel;
+        private System.Windows.Forms.Button btnGenerateChart;
     }
 }
